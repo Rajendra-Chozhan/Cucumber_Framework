@@ -18,18 +18,18 @@ import basepackage.BaseClass;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import pages.HomePage;
 
 public class Stepdefinition_One extends BaseClass {
 
 	WebDriver driver;
-    
+    HomePage hp = new HomePage();
 	@Test
 	@Given("user launches the URL")
 	public void user_launches_application(){
 		
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-notifications");
-		System.setProperty("webdriver.chrome.driver","C:\\Users\\msi\\Desktop\\Selenium\\Chrome Driver\\chromedriver.exe");
 		driver = new ChromeDriver(options);
 		
 		driver.manage().window().maximize();
@@ -46,15 +46,13 @@ public class Stepdefinition_One extends BaseClass {
 	
 	@When("^user sign in to the application$")
 	public void signin() {
-		
-		
 
-		driver.findElement(By.xpath("//*[contains(@class,'p-header-actions-icon p-header-actions-icon--account')]")).click();
-		driver.findElement(By.xpath("//*[contains(@class,'p-user-menu-authenticate-button')][contains(text(),'Login')]")).click();
-		
-		 driver.findElement(By.xpath("//*[contains(@id,\"login-form-email\")]")).sendKeys("rajchozhan024@gmail.com");
-		 driver.findElement(By.xpath("//*[contains(@id,\"login-form-password\")]")).sendKeys("Puma@761645");
-	
+
+
+		hp.clickProfileIcon();
+		hp.clickLogin();
+		hp.clickLoginwithEmail();
+
 		 JavascriptExecutor js = (JavascriptExecutor) driver;
 		 js.executeScript("window.scrollBy(0,250)", "");
 		 
