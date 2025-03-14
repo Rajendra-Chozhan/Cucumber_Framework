@@ -4,19 +4,18 @@ import org.junit.runner.RunWith;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
+import org.testng.annotations.Listeners;
 
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		 plugin = {"pretty", "html:target/cucumber-report", "json:target/cucumber.json"},
-		features = {"src/main/resources/Features"},
-		glue= {"stepdefinitions"},
-		
-		tags = "@SmokeTest"
+		plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
+		features = {"src/main/resources/Features"},		glue= {"stepdefinitions"},
+		tags = "@SmokeTest1"
 		
 		
 		)
 
-public class TestRunner {
+public class TestRunner  {
 
 }

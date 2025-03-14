@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+
+  <test name="QA_Test">
+    <classes>
+ <class name="testrunner.TestRunner"/>
+       </classes>
+  </test>
+    <listeners>
+        <listener class-name="utilities.Listeners_Fab"/>
+    </listeners>
+</suite> 
+
+

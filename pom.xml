@@ -35,7 +35,54 @@
 </dependency>
 
 <!-- https://mvnrepository.com/artifact/org.testng/testng -->
-<!-- https://mvnrepository.com/artifact/info.cukes/cucumber-java -->
+      <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+      <dependency>
+          <groupId>org.testng</groupId>
+          <artifactId>testng</artifactId>
+          <version>7.4.0</version>
+          <scope>test</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi</artifactId>
+          <version>4.1.2</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-core</artifactId>
+          <version>2.17.2</version>
+      </dependency>
+
+      <dependency>
+          <groupId>net.sf.automatic-report-generator</groupId>
+          <artifactId>xls-generator</artifactId>
+          <version>v1.0</version>
+      </dependency>
+
+      <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>3.8.0</version>
+      <scope>test</scope>
+  </dependency>
+      <!-- https://mvnrepository.com/artifact/org.sikuli/sikuli-api -->
+      <dependency>
+          <groupId>org.sikuli</groupId>
+          <artifactId>sikuli-api</artifactId>
+          <version>1.2.0</version>
+      </dependency>
+
+      <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+  </dependency>
+
+
+
+      <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-java -->
 
       <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
       <dependency>
@@ -45,18 +92,31 @@
       </dependency>
 
 
-<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
-<dependency>
-    <groupId>io.cucumber</groupId>
-    <artifactId>cucumber-java</artifactId>
-    <version>7.8.0</version>
-</dependency>
-<dependency>
-    <groupId>io.qameta.allure</groupId>
-    <artifactId>allure-cucumber2-jvm</artifactId>
-    <version>2.0-BETA21</version>
-</dependency>
-  
+      <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+      <dependency>
+          <groupId>io.cucumber</groupId>
+          <artifactId>cucumber-java</artifactId>
+          <version>7.21.1</version>
+      </dependency>
+
+
+      <!-- https://mvnrepository.com/artifact/org.apache.directory.studio/org.apache.commons.io -->
+      <dependency>
+          <groupId>org.apache.directory.studio</groupId>
+          <artifactId>org.apache.commons.io</artifactId>
+          <version>2.4</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.aventstack</groupId>
+          <artifactId>extentreports</artifactId>
+          <version>5.1.1</version>
+      </dependency>
+      <dependency>
+          <groupId>tech.grasshopper</groupId>
+          <artifactId>extentreports-cucumber7-adapter</artifactId>
+          <version>1.14.0</version>
+      </dependency>
   </dependencies>
 
   <build>

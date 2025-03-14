@@ -1,24 +1,34 @@
 Feature: Functional Automation Testing on Puma Website
 
-Description: Cucumber Test for Puma Onsite Site
-@SmokeTest
-Scenario: Login & Logout feature of Puma 
+Description: Cucumber Test for Fab India Onsite Shopping Store
+  @SmokeTest1
+  Scenario: Login & Logout feature of Fab India Onsite Shopping Store
 
-Given user launches the URL
-When user sign in to the application
-And user clicks on Account Info
-And user signs out of the application
+    Given user launches the URL
+    When user sign in to the application
+    And user clicks on Account Info
+    And user signs out of the application
+
+  @SmokeTest1
+  Scenario Outline: Login & Logout feature of Fab India Onsite Shopping Store
+
+    Given user launches the URL
+    When User Sign into the application with <Email> and <Password>
+    And user clicks on Account Info
+    And user signs out of the application
+    Examples:
+      | Email                   | Password     |
+      | rajchozhan024@gmail.com | Chola@761645 |
 
 
-@SmokeTest
-Scenario Outline: Validation of Add to Cart Functionality in Puma website
-Given user launches the URL
-When User Sign into the application with <Email> and <Password>
-And User Search for product
-And User filters the product
-And User Add item to Cart
+  @SmokeTest1
+  Scenario Outline: Verify UI Elements of Hompage in Fab India Onsite Shopping Store
 
-
-Examples:
-|Email                      |                    Password|
-|rajchozhan024@gmail.com    |                Puma@761645 |
+    Given user launches the URL
+    When User Sign into the application with <Email> and <Password>
+    Then User verify the UI Elements in Homepage
+    And user clicks on Account Info
+    And user signs out of the application
+    Examples:
+      | Email                   | Password     |
+      | rajchozhan024@gmail.com | Chola@761645 |

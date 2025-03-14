@@ -1,29 +1,27 @@
 package stepdefinitions;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import io.cucumber.java.en.Then;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 import basepackage.BaseClass;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import pages.HomePage;
+import pages.Homepage_Fab;
 
-public class Stepdefinition_One extends BaseClass {
+public class Login_Logout_Steps extends BaseClass{
 
-	WebDriver driver;
-    HomePage hp = new HomePage();
+
 	@Test
 	@Given("user launches the URL")
 	public void user_launches_application(){
@@ -37,7 +35,7 @@ public class Stepdefinition_One extends BaseClass {
 		driver.get("chrome://settings/clearBrowserData");
 		driver.findElement(By.xpath("//settings-ui")).sendKeys(Keys.ENTER);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		driver.get("https://in.puma.com/in/en/home");
+		driver.get(BaseURL);
 		
 }	
 		
@@ -45,42 +43,66 @@ public class Stepdefinition_One extends BaseClass {
 
 	
 	@When("^user sign in to the application$")
-	public void signin() {
+	public void signin() throws IOException {
 
-
-
+		hp= new Homepage_Fab(driver);
+		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
 		hp.clickProfileIcon();
+		captureScreen(driver,"LoginTest");
+		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
 		hp.clickLogin();
-		hp.clickLoginwithEmail();
+		captureScreen(driver,"LoginTest");
+		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
+		hp.enterEmail(Email);
+		captureScreen(driver,"LoginTest");
+		driver.manage().timeouts().implicitlyWait(190, TimeUnit.SECONDS);
+		hp.enterPassword(Password);
+		captureScreen(driver,"LoginTest");
+		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
+		hp.clicklogin();
+		captureScreen(driver,"LoginTest");
+		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
 
-		 JavascriptExecutor js = (JavascriptExecutor) driver;
-		 js.executeScript("window.scrollBy(0,250)", "");
-		 
-		 WebElement element = driver.findElement(By.xpath("//button[@type='submit'][contains(text(),'Login')]"));
-       	element.click();
-		
 	}
 
 	@And("^user clicks on Account Info$")
-	public void clicks_n_the_logo(){
-	
-		
-		 driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);		 
-			
-		driver.findElement(By.xpath("//*[contains(@class,'p-header-user-status-link')][contains(text(),'My Account')]")).click();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);	
-	}	
+	public void clicks_n_the_logo() throws IOException {
+
+		hp= new Homepage_Fab(driver);
+		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
+		captureScreen(driver,"LoginTest");
+		hp.clickAccountIcon();
+		driver.manage().timeouts().implicitlyWait(110, TimeUnit.SECONDS);
+	}
+
+	@Then("^User verify the UI Elements in Homepage$")
+	public void verify_the_UI_Elements_in_HomePage() throws InterruptedException, IOException {
+
+		hp= new Homepage_Fab(driver);
+		captureScreen(driver,"Verify UI Element Test");
+		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
+		hp.verify_FabIndiaicon();
+		captureScreen(driver,"Verify UI Element Test");
+		hp.verify_Carticon();
+		driver.manage().timeouts().implicitlyWait(110, TimeUnit.SECONDS);
+		hp.verify_Searchicon();
+		hp.verify_Wishlisticon();
+		captureScreen(driver,"Verify UI Element Test");
+		driver.manage().timeouts().implicitlyWait(110, TimeUnit.SECONDS);
+		hp.verify_FabLocationicon();
+		captureScreen(driver,"Verify UI Element Test");
+		hp.verify_CopyRightsText();
+
+		driver.manage().timeouts().implicitlyWait(110, TimeUnit.SECONDS);
+	}
 	
 	
 	@And("^user signs out of the application$")
 	public void signs_out_of_the_application(){
-	
-				
-		driver.findElement(By.xpath("//*[contains(@class,'dashboard__logout__link')][contains(text(),'Logout')]")).click();
+		hp= new Homepage_Fab(driver);
+	    hp.clicklogout();
+	    driver.quit();
 
-		driver.quit();
-		
-			
 	}
 
 
@@ -88,22 +110,26 @@ public class Stepdefinition_One extends BaseClass {
 
 
 	@When("^User Sign into the application with (.*) and (.*)$")
-	public void signintotheapplication(String Email, String Password) {
-		
-		
+	public void signintotheapplication(String Email, String Password) throws IOException {
 
-		driver.findElement(By.xpath("//*[contains(@class,'p-header-actions-icon p-header-actions-icon--account')]")).click();
-		driver.findElement(By.xpath("//*[contains(@class,'p-user-menu-authenticate-button')][contains(text(),'Login')]")).click();
-		
-		 driver.findElement(By.xpath("//*[contains(@id,\"login-form-email\")]")).sendKeys(Email);
-		 driver.findElement(By.xpath("//*[contains(@id,\"login-form-password\")]")).sendKeys(Password);
-	
-		 JavascriptExecutor js = (JavascriptExecutor) driver;
-		 js.executeScript("window.scrollBy(0,250)", "");
-		 
-		 WebElement element = driver.findElement(By.xpath("//button[@type='submit'][contains(text(),'Login')]"));
-       	element.click();
-		 driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);		
+		hp= new Homepage_Fab(driver);
+		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
+		hp.clickProfileIcon();
+		captureScreen(driver,"LoginTest");
+		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
+		hp.clickLogin();
+		captureScreen(driver,"LoginTest");
+		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
+		hp.enterEmail(Email);
+		captureScreen(driver,"LoginTest");
+		driver.manage().timeouts().implicitlyWait(190, TimeUnit.SECONDS);
+		hp.enterPassword(Password);
+		captureScreen(driver,"LoginTest");
+		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
+		hp.clicklogin();
+		captureScreen(driver,"LoginTest");
+		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
+
 		
 	}
 	
