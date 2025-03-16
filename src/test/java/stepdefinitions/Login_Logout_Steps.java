@@ -3,7 +3,11 @@ package stepdefinitions;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+
 import io.cucumber.java.en.Then;
+import basepackage.BaseClass;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -12,30 +16,33 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
-
-import basepackage.BaseClass;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import pages.Homepage_Fab;
 
-public class Login_Logout_Steps extends BaseClass{
+import org.apache.logging.log4j.LogManager;
+import utilities.SendEmailWithReport;
 
+public class Login_Logout_Steps extends BaseClass{
 
 	@Test
 	@Given("user launches the URL")
 	public void user_launches_application(){
-		
+
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-notifications");
 		driver = new ChromeDriver(options);
-		
+		logger.info("Test start");
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
 		driver.get("chrome://settings/clearBrowserData");
 		driver.findElement(By.xpath("//settings-ui")).sendKeys(Keys.ENTER);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		logger.info("Deleted Cookies");
 		driver.get(BaseURL);
+		logger.info("Navigated to URL");
+
 		
 }	
 		
@@ -48,18 +55,22 @@ public class Login_Logout_Steps extends BaseClass{
 		hp= new Homepage_Fab(driver);
 		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
 		hp.clickProfileIcon();
+		logger.info("Clicked Profile Icon");
 		captureScreen(driver,"LoginTest");
 		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
 		hp.clickLogin();
 		captureScreen(driver,"LoginTest");
 		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
 		hp.enterEmail(Email);
+		logger.info("Entered Email");
 		captureScreen(driver,"LoginTest");
 		driver.manage().timeouts().implicitlyWait(190, TimeUnit.SECONDS);
 		hp.enterPassword(Password);
+		logger.info("Entered Password");
 		captureScreen(driver,"LoginTest");
 		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
 		hp.clicklogin();
+		logger.info("Clicked Login Button");
 		captureScreen(driver,"LoginTest");
 		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
 
@@ -72,6 +83,7 @@ public class Login_Logout_Steps extends BaseClass{
 		driver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
 		captureScreen(driver,"LoginTest");
 		hp.clickAccountIcon();
+logger.info("clicked Account icon");
 		driver.manage().timeouts().implicitlyWait(110, TimeUnit.SECONDS);
 	}
 
@@ -94,6 +106,8 @@ public class Login_Logout_Steps extends BaseClass{
 		hp.verify_CopyRightsText();
 
 		driver.manage().timeouts().implicitlyWait(110, TimeUnit.SECONDS);
+
+		logger.info("Verified UI Elements");
 	}
 	
 	
@@ -101,7 +115,9 @@ public class Login_Logout_Steps extends BaseClass{
 	public void signs_out_of_the_application(){
 		hp= new Homepage_Fab(driver);
 	    hp.clicklogout();
+		logger.info("Clicked Logout");
 	    driver.quit();
+		SendEmailWithReport.sendjavaemail();
 
 	}
 

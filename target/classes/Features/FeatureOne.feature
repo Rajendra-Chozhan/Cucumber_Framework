@@ -1,7 +1,7 @@
 Feature: Functional Automation Testing on Puma Website
 
 Description: Cucumber Test for Fab India Onsite Shopping Store
-  @SmokeTest1
+  @SmokeTest
   Scenario: Login & Logout feature of Fab India Onsite Shopping Store
 
     Given user launches the URL

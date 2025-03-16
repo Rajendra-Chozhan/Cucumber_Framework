@@ -52,10 +52,10 @@ public class Readconfigfile {
 		return pwd;
 	}
 
-	public String getChromepath() {
+	public String getEmailpwd() {
 		
-		String Chpath=pro.getProperty("Chromepath");
-		return Chpath;
+		String emailPassword=pro.getProperty("Emailpassword");
+		return emailPassword;
 	}
 		
 	public String getEdgepath() {

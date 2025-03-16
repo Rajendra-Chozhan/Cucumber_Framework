@@ -11,7 +11,7 @@ import org.testng.annotations.Listeners;
 @CucumberOptions(
 		plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
 		features = {"src/main/resources/Features"},		glue= {"stepdefinitions"},
-		tags = "@SmokeTest1"
+		tags = "@SmokeTest"
 		
 		
 		)
