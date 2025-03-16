@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
+import io.cucumber.java.After;
+import io.cucumber.java.AfterAll;
+import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Then;
 import basepackage.BaseClass;
 import org.apache.logging.log4j.LogManager;
@@ -116,13 +120,10 @@ logger.info("clicked Account icon");
 		hp= new Homepage_Fab(driver);
 	    hp.clicklogout();
 		logger.info("Clicked Logout");
-	    driver.quit();
-		SendEmailWithReport.sendjavaemail();
+	   driver.quit();
+	//	SendEmailWithReport.sendjavaemail();
 
 	}
-
-
-
 
 
 	@When("^User Sign into the application with (.*) and (.*)$")

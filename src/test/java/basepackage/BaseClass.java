@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
+import io.cucumber.java.Before;
 import org.apache.commons.io.FileUtils;
 
 import org.apache.commons.mail.EmailException;
@@ -71,19 +72,5 @@ public class BaseClass {
 			System.out.println("Exception while taking screenshot" + e.getMessage());
 		}
 	}
-	// @BeforeClass(alwaysRun=true)
-	    public static void setUp() throws IOException {
 
-		 driver = new ChromeDriver();
-			driver.manage().window().maximize();
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
-	    }
-
-	    @AfterClass
-	    public static void tearDown(){
-
-			driver.quit();
-			    }
-
-	}
+		}

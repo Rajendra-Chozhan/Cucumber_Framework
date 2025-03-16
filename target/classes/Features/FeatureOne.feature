@@ -1,4 +1,4 @@
-Feature: Functional Automation Testing on Puma Website
+Feature: Functional Automation Testing on Fab India Website
 
 Description: Cucumber Test for Fab India Onsite Shopping Store
   @SmokeTest
