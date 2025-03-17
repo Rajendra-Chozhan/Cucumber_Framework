@@ -1,6 +1,7 @@
 Feature: Functional Automation Testing on Fab India Website
 
 Description: Cucumber Test for Fab India Onsite Shopping Store
+
   @SmokeTest
   Scenario: Login & Logout feature of Fab India Onsite Shopping Store
 
@@ -9,7 +10,7 @@ Description: Cucumber Test for Fab India Onsite Shopping Store
     And user clicks on Account Info
     And user signs out of the application
 
-  @SmokeTest1
+  @SmokeTest
   Scenario Outline: Login & Logout feature of Fab India Onsite Shopping Store
 
     Given user launches the URL
@@ -21,7 +22,7 @@ Description: Cucumber Test for Fab India Onsite Shopping Store
       | rajchozhan024@gmail.com | Chola@761645 |
 
 
-  @SmokeTest1
+  @SmokeTest
   Scenario Outline: Verify UI Elements of Hompage in Fab India Onsite Shopping Store
 
     Given user launches the URL

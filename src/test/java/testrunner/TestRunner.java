@@ -9,7 +9,9 @@ import org.testng.annotations.Listeners;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
+		plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+				"rerun:target/FailedRerun.txt"
+		},
 		features = {"src/main/resources/Features"},		glue= {"stepdefinitions"},
 		tags = "@SmokeTest"
 		
