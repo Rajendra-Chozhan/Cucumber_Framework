@@ -12,7 +12,7 @@ import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import org.apache.commons.io.FileUtils;
 
-import org.apache.commons.mail.EmailException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;
@@ -23,7 +23,8 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import pages.Homepage_Fab;
 import utilities.Readconfigfile;
-import utilities.SendEmailWithReport;
+import utilities.Readextentfile;
+//import utilities.SendEmailWithReport;
 
 
 public class BaseClass {
@@ -32,6 +33,9 @@ public class BaseClass {
 	public  static WebDriver driver;
 	public Homepage_Fab hp;
 	Readconfigfile read = new Readconfigfile();
+	static Readextentfile read1 = new Readextentfile();
+
+	public static String reportdate =read1.getreportdate();
 
 	public String BaseURL=read.getApplicationURL();
 	public String Email=read.getEmail();
@@ -56,7 +60,13 @@ public class BaseClass {
 	}
 
 	public static String timestamp() {
-		return new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date());
+
+			return new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date());
+	}
+
+	public static String reporttimestamp() {
+
+		return reportdate;
 	}
 
 

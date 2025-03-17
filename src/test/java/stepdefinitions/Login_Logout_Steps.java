@@ -24,9 +24,9 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import pages.Homepage_Fab;
-
 import org.apache.logging.log4j.LogManager;
 import utilities.SendEmailWithReport;
+
 
 public class Login_Logout_Steps extends BaseClass{
 
@@ -121,7 +121,6 @@ logger.info("clicked Account icon");
 	    hp.clicklogout();
 		logger.info("Clicked Logout");
 	   driver.quit();
-	//	SendEmailWithReport.sendjavaemail();
 
 	}
 
@@ -168,8 +167,18 @@ logger.info("clicked Account icon");
 		search.sendKeys(Keys.ENTER);
 		 driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);	
 	}
-	
 
+
+
+
+	@When("^user send the test report in email$")
+	public void user_send_the_email_report() {
+
+SendEmailWithReport rp = new SendEmailWithReport();
+rp.sendjavaemail();
+
+
+	}
 
 
 	@When("^User filters the product$")
