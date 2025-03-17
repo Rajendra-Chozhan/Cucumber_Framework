@@ -174,10 +174,8 @@ logger.info("clicked Account icon");
 	@When("^user send the test report in email$")
 	public void user_send_the_email_report() {
 
-SendEmailWithReport rp = new SendEmailWithReport();
-rp.sendjavaemail();
-
-
+     SendEmailWithReport rp = new SendEmailWithReport();
+	 rp.sendjavaemail();
 	}
 
 

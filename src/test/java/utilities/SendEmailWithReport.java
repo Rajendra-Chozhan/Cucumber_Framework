@@ -50,7 +50,7 @@ public class SendEmailWithReport extends BaseClass {
 
             // Attachment Part
             jakarta.mail.internet.MimeBodyPart attachmentPart = new jakarta.mail.internet.MimeBodyPart();
-            String filePath =System.getProperty("user.dir") + "/target/cucumber-reports/cucumber.html";
+            String filePath =System.getProperty("user.dir") + "/target/cucumber-reports/report.html";
 
             //ExtentReports/SparkReport_ 15_Mar_25 19_07_49/Reports/Spark.html
             System.out.println("Attachment path is - "+filePath);
