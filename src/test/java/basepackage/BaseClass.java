@@ -12,6 +12,7 @@ import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import org.apache.commons.io.FileUtils;
 
+import org.apache.commons.mail.EmailException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;

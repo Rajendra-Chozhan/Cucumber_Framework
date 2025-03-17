@@ -30,6 +30,7 @@ Description: Cucumber Test for Fab India Onsite Shopping Store
     Then User verify the UI Elements in Homepage
     And user clicks on Account Info
     And user signs out of the application
+    And user send the test report in email
     Examples:
       | Email                   | Password     |
       | rajchozhan024@gmail.com | Chola@761645 |
