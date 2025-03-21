@@ -10,18 +10,19 @@ import basepackage.BaseClass;
 
 public class Foodpage_Fab extends BaseClass{
 
-	
-	
+
+
+
 WebDriver ldriver;
-	
+
 	public Foodpage_Fab(WebDriver rdriver)
-	
+
 	{
-		
+
 		ldriver = rdriver;
-		
+
 		PageFactory.initElements(rdriver,this);
-		
+
 	}
 	
 	
@@ -29,7 +30,7 @@ WebDriver ldriver;
 	public WebElement SWEETENERS;
 	
 public void clicksweeterners() throws InterruptedException {
-	highLighterMethod(driver,SWEETENERS);
+	highLighterMethod((WebDriver) driver,SWEETENERS);
 	Thread.sleep(2000);
 	SWEETENERS.click();
 	}
@@ -44,7 +45,7 @@ public void clickhoney() throws InterruptedException {
 	JavascriptExecutor js = (JavascriptExecutor) driver;
 	js.executeScript("arguments[0].scrollIntoView();", RudrapraygHoney);
 	Thread.sleep(2000);
-highLighterMethod(driver,RudrapraygHoney);	
+highLighterMethod((WebDriver) driver,RudrapraygHoney);
 RudrapraygHoney.click();
 }
 
@@ -58,7 +59,7 @@ public WebElement no_of_items;
 
 
 public void clicknumberrequired() throws InterruptedException {
-	highLighterMethod(driver,no_of_items);
+	highLighterMethod((WebDriver) driver,no_of_items);
 	for (int i = 0; i <=3; i++){
 		 //click the button
 		no_of_items.click();
@@ -74,7 +75,7 @@ public void clicknumberrequired() throws InterruptedException {
 
 
 	public void clickaddtocart() throws InterruptedException {
-		highLighterMethod(driver,addtocart);
+		highLighterMethod((WebDriver) driver,addtocart);
 		
 		addtocart.click();
 			
@@ -107,7 +108,7 @@ public void clicknumberrequired() throws InterruptedException {
 
 
 	public void clicksugar() throws InterruptedException {
-		highLighterMethod(driver,sugar);
+		highLighterMethod((WebDriver) driver,sugar);
 		
 		sugar.click();
 			

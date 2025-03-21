@@ -12,10 +12,12 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
+import org.openqa.selenium.WebDriver;
 import utilities.Readconfigfile;
 
 public class SendEmailWithReport extends BaseClass {
 
+    static FolderNameExtract f = new FolderNameExtract();
     public static void sendjavaemail(){
 
         Readconfigfile read = new Readconfigfile();
@@ -50,9 +52,10 @@ public class SendEmailWithReport extends BaseClass {
 
             // Attachment Part
             jakarta.mail.internet.MimeBodyPart attachmentPart = new jakarta.mail.internet.MimeBodyPart();
-            String filePath =System.getProperty("user.dir") + "/target/cucumber-reports/report.html";
+        String folder =    f.foldername();
+       //     String filePath =System.getProperty("user.dir") + "/target/cucumber-reports/report.html";
+             String filePath ="C:\\Users\\ADMIN\\eclipse-workspace\\Cucumber_Framework\\ExtentReports\\SparkReport\\"+f.foldername()+"\\HtmlReport\\ExtentHtml.html";
 
-            //ExtentReports/SparkReport_ 15_Mar_25 19_07_49/Reports/Spark.html
             System.out.println("Attachment path is - "+filePath);
             attachmentPart.attachFile(new File(filePath));
 

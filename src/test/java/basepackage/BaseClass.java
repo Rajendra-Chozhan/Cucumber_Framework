@@ -4,24 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
-import io.cucumber.java.After;
-import io.cucumber.java.AfterAll;
-import io.cucumber.java.Before;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
 import pages.Homepage_Fab;
 import utilities.Readconfigfile;
-import utilities.SendEmailWithReport;
 
 
 public class BaseClass {
@@ -42,16 +31,6 @@ public class BaseClass {
 		js.executeScript("arguments[0].setAttribute('style', 'background: white; border: 2px solid green;');", element);
 	}
 
-
-
-	public void screenShot() throws IOException, InterruptedException
-	{
-		File scr=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-		File dest= new File("filPath/screenshot_"+timestamp()+".png");
-		FileUtils.copyFile(scr, dest);
-		Thread.sleep(3000);
-		//logger.info("Screenshot done");
-	}
 
 	public static String timestamp() {
 		return new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date());

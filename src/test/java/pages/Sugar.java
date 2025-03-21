@@ -13,25 +13,24 @@ public class Sugar extends BaseClass {
 	
 	
 WebDriver ldriver;
-	
 	public Sugar(WebDriver rdriver)
-	
 	{
-		
+
 		ldriver = rdriver;
-		
+
 		PageFactory.initElements(rdriver,this);
-		
+
 	}
-	
+
 	
 	@FindBy(xpath="//a[@id='CC-guidedNavigation-dimensionHeader-0']")
 	public WebElement SIZE;
 	
 	@FindBy(xpath="//*[@id=\"CC-headerWidget-Search\"]")
 	public WebElement SEARCH;
-	
-public void clicksize() throws InterruptedException {
+
+
+	public void clicksize() throws InterruptedException {
 	
 	Actions action = new Actions(driver);
 	action.moveToElement(SEARCH).build().perform();

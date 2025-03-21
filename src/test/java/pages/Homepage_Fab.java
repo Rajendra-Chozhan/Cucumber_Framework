@@ -6,35 +6,29 @@ import basepackage.BaseClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 import basepackage.BaseClass;
 
 public class Homepage_Fab extends BaseClass{
-	 
-	
+
 	
 WebDriver ldriver;
-	
 	public Homepage_Fab(WebDriver rdriver)
 		{
-		
+
 		ldriver = rdriver;
-		
 		PageFactory.initElements(rdriver,this);
-		
+
 	}
 
 	@FindBy(xpath = "//button[@class='border-0 bg-transparent']//*[name()='svg']")
 	public  WebElement ProfileButton;
-
-
 	public void clickProfileIcon()
 	{
 		ProfileButton.click();
@@ -43,7 +37,6 @@ WebDriver ldriver;
 
 	@FindBy(xpath = "//button[normalize-space()='Login using password']")
 	public  WebElement LoginButton;
-
 	public void clickLogin()
 	{
 		highLighterMethod(driver,LoginButton);
@@ -52,7 +45,6 @@ WebDriver ldriver;
 
 	@FindBy(xpath = "//input[@id='logiemail']")
 	public WebElement EmailField;
-
 	public void enterEmail(String email)
 	{
 		highLighterMethod(driver,EmailField);
@@ -82,7 +74,7 @@ WebDriver ldriver;
 	public void clickAccountIcon()
 	{
 		highLighterMethod(driver,AccountButton);
-		Actions action = new Actions(driver);
+		Actions action = new Actions((WebDriver) driver);
 		action.moveToElement(AccountButton).build().perform();
 		AccountButton.click();
 	}
@@ -202,7 +194,7 @@ WebDriver ldriver;
 		
 
 	    highLighterMethod(driver,LinenDobbyWeaveLongKurta);
-	    driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS) ; 
+	    driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS) ;
 
 	    LinenDobbyWeaveLongKurta.click();
 		

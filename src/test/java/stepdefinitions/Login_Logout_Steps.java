@@ -23,11 +23,13 @@ import org.openqa.selenium.support.ui.Select;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import org.testng.annotations.Listeners;
 import pages.Homepage_Fab;
 import org.apache.logging.log4j.LogManager;
+import utilities.ExtentReportListener;
 import utilities.SendEmailWithReport;
 
-
+@Listeners(ExtentReportListener.class)
 public class Login_Logout_Steps extends BaseClass{
 
 	@Test
@@ -48,11 +50,11 @@ public class Login_Logout_Steps extends BaseClass{
 		logger.info("Navigated to URL");
 
 		
-}	
-		
-	
+}
 
-	
+
+
+
 	@When("^user sign in to the application$")
 	public void signin() throws IOException {
 
@@ -116,12 +118,12 @@ logger.info("clicked Account icon");
 	
 	
 	@And("^user signs out of the application$")
-	public void signs_out_of_the_application(){
+	public void signs_out_of_the_application() throws InterruptedException {
 		hp= new Homepage_Fab(driver);
 	    hp.clicklogout();
 		logger.info("Clicked Logout");
 	   driver.quit();
-
+		Thread.sleep(1000);
 	}
 
 
@@ -176,6 +178,8 @@ logger.info("clicked Account icon");
 
      SendEmailWithReport rp = new SendEmailWithReport();
 	 rp.sendjavaemail();
+
+
 	}
 
 

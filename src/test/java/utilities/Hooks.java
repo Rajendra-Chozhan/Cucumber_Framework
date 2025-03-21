@@ -1,30 +1,22 @@
 package utilities;
 
 
-import basepackage.BaseClass;
-import io.cucumber.java.AfterAll;
-import io.cucumber.java.Before;
 import io.cucumber.java.After;
-import io.cucumber.java.BeforeAll;
+import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import utilities.DriverManager;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+public class Hooks {
+    WebDriver driver;
 
-public class Hooks extends BaseClass {
-
-
-    @BeforeAll
-    public static void before(){
-
-        logger.info("Before all");
+    @Before
+    public void setUp() {
+        driver = DriverManager.getDriver();
+        driver.manage().window().maximize();
     }
 
-
-    @AfterAll
-    public static void after(){
-
-        logger.info("After all");
+    @After
+    public void tearDown() {
+        DriverManager.quitDriver();
     }
 }
