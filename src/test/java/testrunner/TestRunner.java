@@ -14,7 +14,7 @@ import utilities.CustomReportListener;
 				"rerun:target/FailedRerun.txt"
 		},
 		features = {"src/main/resources/Features"},		glue= {"stepdefinitions"},
-		tags = "@SmokeTest1"
+		tags = "@SmokeTest"
 		
 		
 		)

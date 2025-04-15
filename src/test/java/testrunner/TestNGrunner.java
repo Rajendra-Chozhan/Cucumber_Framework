@@ -12,7 +12,7 @@ import io.cucumber.testng.CucumberOptions;
                 "rerun:target/FailedRerun.txt"
         },
         features = {"src/main/resources/Features"},		glue= {"stepdefinitions"},
-        tags = "@SmokeTest"
+        tags = "@TestNG"
 
 
 )
