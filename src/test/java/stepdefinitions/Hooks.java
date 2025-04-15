@@ -96,9 +96,11 @@ public class Hooks {
         CustomReportListener.setResults(results); // Add this
     }
     @AfterSuite
-    public void finalizeReport() {
-        System.out.println("Generating report");
-        utilities.CustomReportListener.generateReport(results);
+    public void generateHtmlReport() {
+        TestNGReportGenerator.generateTestSummaryHtmlFromTestNG(
+                "target/surefire-reports/testng-native-results/testng-results.xml",
+                "target/surefire-reports/testng-native-results/emailable-report.html"
+        );
     }
 
 
