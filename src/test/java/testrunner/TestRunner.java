@@ -1,9 +1,11 @@
 package testrunner;
 
+import io.cucumber.testng.AbstractTestNGCucumberTests;
 import org.junit.runner.RunWith;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
-
+import org.testng.annotations.Listeners;
+import utilities.CustomReportListener;
 
 
 @RunWith(Cucumber.class)
@@ -18,6 +20,7 @@ import io.cucumber.junit.CucumberOptions;
 		)
 
 
-public class TestRunner {
+@Listeners(CustomReportListener.class)
+public class TestRunner extends AbstractTestNGCucumberTests {
 
 }
