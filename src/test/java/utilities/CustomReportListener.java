@@ -15,6 +15,15 @@ public class CustomReportListener implements ITestListener {
     public static int counter = 1;
 
     public static void generateReport(List<TestResult> testResults, String reportFolderPath) throws IOException {
+        // Ensure the custom report folder exists or create it
+        File reportFolder = new File(reportFolderPath);
+        if (!reportFolder.exists()) {
+            boolean created = reportFolder.mkdirs();  // Create directories if they don't exist
+            if (created) {
+                System.out.println("Created directory: " + reportFolderPath);
+            }
+        }
+
         // Generate a timestamp to append to the report file name
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String reportFilePath = reportFolderPath + File.separator + "TestExecutionReport_" + timestamp + ".html";
@@ -28,12 +37,12 @@ public class CustomReportListener implements ITestListener {
         htmlContent.append("<h1 style='color: #2c3e50; text-align: center;'>Test Execution Report</h1>");
 
         // Test summary section
-        htmlContent.append("<h3 style='color: #2980b9;'>Test Execution Summary</h3>");
-        htmlContent.append("<p><strong>Total Test Cases:</strong> ${TEST_COUNTS,total}</p>");
-        htmlContent.append("<p><strong>Passed:</strong> ${TEST_COUNTS,pass}</p>");
-        htmlContent.append("<p><strong>Failed:</strong> ${TEST_COUNTS,fail}</p>");
-        htmlContent.append("<p><strong>Skipped:</strong> ${TEST_COUNTS,skip}</p>");
-        htmlContent.append("<hr>");
+//        htmlContent.append("<h3 style='color: #2980b9;'>Test Execution Summary</h3>");
+//        htmlContent.append("<p><strong>Total Test Cases:</strong> ${TEST_COUNTS,total}</p>");
+//        htmlContent.append("<p><strong>Passed:</strong> ${TEST_COUNTS,pass}</p>");
+//        htmlContent.append("<p><strong>Failed:</strong> ${TEST_COUNTS,fail}</p>");
+//        htmlContent.append("<p><strong>Skipped:</strong> ${TEST_COUNTS,skip}</p>");
+//        htmlContent.append("<hr>");
 
         // Test case details table
         htmlContent.append("<h3 style='color: #2980b9;'>Test Case Details</h3>");
