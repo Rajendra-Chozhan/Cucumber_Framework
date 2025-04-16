@@ -21,7 +21,7 @@ Description: Cucumber Test for Fab India Onsite Shopping Store
       | Email                   | Password     |
       | rajchozhan024@gmail.com | Chola@761645 |
 
-  @SmokeTest
+  @SmokeTest1
   Scenario Outline: Verify UI Elements of Hompage in Fab India Onsite Shopping Store
 
     Given user launches the URL

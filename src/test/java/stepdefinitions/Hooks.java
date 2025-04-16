@@ -1,38 +1,35 @@
 package stepdefinitions;
 
-
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
+import io.cucumber.java.*;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterSuite;
 import utilities.*;
-import io.cucumber.java.Scenario;
+
 import java.io.File;
-import java.io.FileWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Hooks {
-    private static final List<TestResult> results = new ArrayList<>();
+    private static final List<TestResult> testResults = new ArrayList<>();
     private static int counter = 1;
     private long startTime;
 
     @Before
-
     public void beforeScenario(Scenario scenario) {
-              System.out.println("🔥 BEFORE HOOK triggered for: " + scenario.getName());
+        System.out.println("🔥 BEFORE HOOK triggered for: " + scenario.getName());
+        startTime = System.currentTimeMillis(); // Capture the start time of the scenario
     }
+
     @After
     public void afterScenario(Scenario scenario) {
         System.out.println("✅ AFTER HOOK triggered for: " + scenario.getName());
-        long duration = System.currentTimeMillis() - startTime;
+
+        long durationInMillis = System.currentTimeMillis() - startTime; // Calculate the duration after the scenario ends
+        String duration = String.valueOf(durationInMillis); // Convert duration to String
+
         String status = scenario.isFailed() ? "FAIL" : "PASS";
         String browser = System.getProperty("browser", "chrome");
 
@@ -45,7 +42,6 @@ public class Hooks {
                 WebDriver driver = DriverFactory.getDriver();
                 if (driver != null) {
                     File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-
                     String screenshotDir = System.getProperty("user.dir") + File.separator + "test-output" + File.separator + "screenshots";
                     new File(screenshotDir).mkdirs();
 
@@ -54,8 +50,7 @@ public class Hooks {
                     FileUtils.copyFile(srcFile, destFile);
 
                     screenshotPath = "../screenshots/" + fileName;
-
-                    System.out.println("✅ Screenshot saved: " + destFile.getAbsolutePath());
+                    System.out.println("📸 Screenshot saved: " + destFile.getAbsolutePath());
                 } else {
                     System.out.println("🚨 WebDriver is null. Screenshot not captured.");
                 }
@@ -71,38 +66,34 @@ public class Hooks {
             errorMessage = (error != null) ? error.getMessage() : "Unknown error";
         }
 
-        results.add(new TestResult(
-                counter++,
-                scenario.getName(),
-                status,
-                duration,
-                browser,
-                screenshotPath,
-                errorMessage
+        // Add the test result to the list
+        testResults.add(new TestResult(
+                counter++,                          // Increment the counter for each test case
+                scenario.getName(),                 // Scenario name
+                status,                             // Test status (PASS/FAIL)
+                duration,                           // Duration as String
+                browser,                            // Browser used for the test
+                screenshotPath,                     // Screenshot path (if any)
+                errorMessage                        // Error message (if any)
         ));
 
+        // Clear any error information from ErrorTracker
         ErrorTracker.clear();
     }
 
-    public static List<TestResult> getResults() {
-        return results;
+    @AfterAll
+    public static void generateReport() {
+        try {
+            // Call the generateReport method from the report class
+            CustomReportListener.generateReport(testResults, "test-output/custom-reports");  // Make sure the ReportGenerator class is responsible for report creation
+            System.out.println("📄 HTML report generated.");
+        } catch (IOException e) {
+            System.out.println("❌ Failed to generate report: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-
-    @After
-    public void after_Scenario(Scenario scenario) {
-        // ... existing logic
-        results.add(new TestResult());
-        CustomReportListener.setResults(results); // Add this
+    public static List<TestResult> getTestResults() {
+        return testResults;
     }
-    @AfterSuite
-    public void generateHtmlReport() {
-        TestNGReportGenerator.generateTestSummaryHtmlFromTestNG(
-                "target/surefire-reports/testng-native-results/testng-results.xml",
-                "target/surefire-reports/testng-native-results/emailable-report.html"
-        );
-    }
-
-
-
 }
