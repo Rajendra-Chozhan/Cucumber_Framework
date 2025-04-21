@@ -122,7 +122,7 @@ public class CustomReportListener implements ITestListener {
 
             html.append("<tr>");
             html.append("<td>").append(result.getSno()).append("</td>");
-            html.append("<td>").append(result.getName()).append("</td>");
+            html.append("<td>").append(result.getName()).append("</td>");  // ✅ Correct Scenario Name
             html.append("<td style='color: ").append(statusColor).append("; font-weight: bold;'>").append(result.getStatus()).append("</td>");
             html.append("<td>").append(df.format(durationMin)).append("</td>");
             html.append("<td>").append(result.getBrowser()).append("</td>");

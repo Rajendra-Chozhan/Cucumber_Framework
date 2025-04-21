@@ -1,19 +1,16 @@
 package stepdefinitions;
 
-import io.cucumber.core.gherkin.Step;
 import io.cucumber.java.*;
-import io.cucumber.shaded.messages.types.TestStepResult;
+import io.cucumber.java.Scenario;
 import utilities.CustomReportListener;
 import utilities.ErrorTracker;
 import utilities.TestResult;
 
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Hooks {
+
     private static final ThreadLocal<Long> startTime = new ThreadLocal<>();
     public static List<TestResult> testResults = new ArrayList<>();
     private static int counter = 1;
@@ -27,7 +24,7 @@ public class Hooks {
     @After
     public void afterScenario(Scenario scenario) {
         long durationMillis = System.currentTimeMillis() - startTime.get();
-        String browser = "Chrome"; // Fetch dynamically if needed
+        String browser = "Chrome"; // You can fetch this dynamically if needed
         String errorMsg = "";
 
         Throwable error = ErrorTracker.getError();
@@ -35,14 +32,16 @@ public class Hooks {
             errorMsg = error.getMessage();
         }
 
-        testResults.add(new TestResult(
+        TestResult result = new TestResult(
                 counter++,
-                scenario.getName(),
+                scenario.getName(), // ✅ Correct scenario name
                 scenario.getStatus().toString(),
                 durationMillis,
                 browser,
                 errorMsg
-        ));
+        );
+
+        testResults.add(result);
     }
 
     @AfterAll
