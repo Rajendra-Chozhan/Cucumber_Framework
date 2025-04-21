@@ -2,7 +2,7 @@ package stepdefinitions;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
+import org.testng.annotations.Test;
 
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
@@ -12,7 +12,7 @@ import io.cucumber.java.en.Then;
 import basepackage.BaseClass;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Test;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -33,7 +33,7 @@ import utilities.SendEmailWithReport;
 @Listeners(ExtentReportListener.class)
 public class Login_Logout_Steps extends BaseClass{
 
-	@Test()
+	@Test(description = "Login Test")
 	@Given("user launches the URL")
 	public void user_launches_application(){
 try {
