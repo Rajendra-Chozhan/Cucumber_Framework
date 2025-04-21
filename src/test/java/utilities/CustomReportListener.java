@@ -30,8 +30,8 @@ public class CustomReportListener implements ITestListener {
 
         StringBuilder html = new StringBuilder();
         html.append("<html><body style='font-family: Arial;'>");
-        html.append("<h2>Hi,</h2>");
-        html.append("<p>Please find the below Test execution report</p>");
+//        html.append("<h2>Hi,</h2>");
+//        html.append("<p>Please find the below Test execution report</p>");
         html.append("<h2 style='color: #2c3e50;'>Test Execution Report for ").append(timestamp).append("</h2>");
 
         // Summary Table
