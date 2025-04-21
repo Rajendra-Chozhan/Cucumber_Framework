@@ -26,11 +26,12 @@ import io.cucumber.java.en.When;
 import org.testng.annotations.Listeners;
 import pages.Homepage_Fab;
 import org.apache.logging.log4j.LogManager;
+import utilities.CustomReportListener;
 import utilities.ErrorTracker;
 import utilities.ExtentReportListener;
 import utilities.SendEmailWithReport;
 
-@Listeners(ExtentReportListener.class)
+@Listeners(CustomReportListener.class)
 public class Login_Logout_Steps extends BaseClass{
 
 	@Test(description = "Login Test")
