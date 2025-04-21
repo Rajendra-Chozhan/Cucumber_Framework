@@ -33,7 +33,7 @@ import utilities.SendEmailWithReport;
 @Listeners(ExtentReportListener.class)
 public class Login_Logout_Steps extends BaseClass{
 
-	@Test
+	@Test()
 	@Given("user launches the URL")
 	public void user_launches_application(){
 try {
