@@ -1,67 +1,14 @@
 package utilities;
 
+import org.testng.ITestListener;
+
 import java.io.FileWriter;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import org.testng.ITestContext;
-import org.testng.ITestListener;
-import org.testng.ITestResult;
-
 public class CustomReportListener implements ITestListener {
-    public static List<TestResult> testResults = new ArrayList<>();
-    public static int counter = 1;
-    private static Map<ITestResult, Long> startTimes = new HashMap<>();
-
-
-    @Override
-    public void onTestStart(ITestResult result) {
-        startTimes.put(result, System.currentTimeMillis());
-    }
-
-    @Override
-    public void onTestSuccess(ITestResult result) {
-        record(result, "PASSED", null);
-    }
-
-    @Override
-    public void onTestFailure(ITestResult result) {
-        Throwable throwable = result.getThrowable();
-        String errorMessage = (throwable != null) ? throwable.getMessage() : "Unknown error";
-        record(result, "FAILED", errorMessage);
-    }
-
-    @Override
-    public void onTestSkipped(ITestResult result) {
-        record(result, "SKIPPED", "Test was skipped");
-    }
-
-    private void record(ITestResult result, String status, String errorMessage) {
-        long start = startTimes.getOrDefault(result, System.currentTimeMillis());
-        long duration = System.currentTimeMillis() - start;
-        String testName = result.getMethod().getMethodName();
-        String browser = System.getProperty("browser", "chrome"); // Customize if needed
-
-        testResults.add(new TestResult(
-                counter++,
-                testName,
-                status,
-                duration,
-                browser,
-                errorMessage == null ? "" : errorMessage
-        ));
-    }
-
-    @Override
-    public void onFinish(ITestContext context) {
-        try {
-            CustomReportListener.generateReport(testResults, "test-output/custom-reports");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void generateReport(List<TestResult> testResults, String reportFolderPath) throws Exception {
         File reportFolder = new File(reportFolderPath);
@@ -122,7 +69,7 @@ public class CustomReportListener implements ITestListener {
 
             html.append("<tr>");
             html.append("<td>").append(result.getSno()).append("</td>");
-            html.append("<td>").append(result.getName()).append("</td>");  // ✅ Correct Scenario Name
+            html.append("<td>").append(result.getName()).append("</td>");  // ✅ Real Scenario Name
             html.append("<td style='color: ").append(statusColor).append("; font-weight: bold;'>").append(result.getStatus()).append("</td>");
             html.append("<td>").append(df.format(durationMin)).append("</td>");
             html.append("<td>").append(result.getBrowser()).append("</td>");
