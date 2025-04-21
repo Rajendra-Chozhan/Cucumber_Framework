@@ -3,111 +3,143 @@ package utilities;
 import java.io.FileWriter;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 import java.util.*;
+
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import java.io.*;
-import java.nio.file.*;
 
 public class CustomReportListener implements ITestListener {
-    public static List<TestResult> results;
+    public static List<TestResult> testResults = new ArrayList<>();
     public static int counter = 1;
+    private static Map<ITestResult, Long> startTimes = new HashMap<>();
 
-    public static void generateReport(List<TestResult> testResults, String reportFolderPath) throws IOException {
-        // Ensure the custom report folder exists or create it
-        File reportFolder = new File(reportFolderPath);
-        if (!reportFolder.exists()) {
-            boolean created = reportFolder.mkdirs();  // Create directories if they don't exist
-            if (created) {
-                System.out.println("Created directory: " + reportFolderPath);
-            }
-        }
 
-        // Generate a timestamp to append to the report file name
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String reportFilePath = reportFolderPath + File.separator + "TestExecutionReport_" + timestamp + ".html";
-
-        // File path for the latest report (which Jenkins or email could use)
-        String latestReportPath = reportFolderPath + File.separator + "latest.html";
-
-        // Build the HTML content for the report
-        StringBuilder htmlContent = new StringBuilder();
-        htmlContent.append("<html><body style='font-family: Arial, sans-serif; line-height: 1.6;'>");
-        htmlContent.append("<h1 style='color: #2c3e50; text-align: center;'>Test Execution Report</h1>");
-
-        // Test summary section
-//        htmlContent.append("<h3 style='color: #2980b9;'>Test Execution Summary</h3>");
-//        htmlContent.append("<p><strong>Total Test Cases:</strong> ${TEST_COUNTS,total}</p>");
-//        htmlContent.append("<p><strong>Passed:</strong> ${TEST_COUNTS,pass}</p>");
-//        htmlContent.append("<p><strong>Failed:</strong> ${TEST_COUNTS,fail}</p>");
-//        htmlContent.append("<p><strong>Skipped:</strong> ${TEST_COUNTS,skip}</p>");
-//        htmlContent.append("<hr>");
-
-        // Test case details table
-        htmlContent.append("<h3 style='color: #2980b9;'>Test Case Details</h3>");
-        htmlContent.append("<table style='width: 100%; border-collapse: collapse; margin: 20px 0;'>");
-
-        // Header row with light orange background
-        htmlContent.append("<thead>");
-        htmlContent.append("<tr style='background-color: #f39c12; color: white;'>");
-        htmlContent.append("<th style='padding: 10px; text-align: left;'>S.No</th>");
-        htmlContent.append("<th style='padding: 10px; text-align: left;'>Test Case Name</th>");
-        htmlContent.append("<th style='padding: 10px; text-align: left;'>Status</th>");
-        htmlContent.append("<th style='padding: 10px; text-align: left;'>Duration</th>");
-        htmlContent.append("<th style='padding: 10px; text-align: left;'>Browser</th>");
-        htmlContent.append("<th style='padding: 10px; text-align: left;'>Error Message</th>");
-        htmlContent.append("<th style='padding: 10px; text-align: left;'>Screenshot</th>");
-        htmlContent.append("</tr>");
-        htmlContent.append("</thead>");
-
-        // Body rows (test results)
-        htmlContent.append("<tbody>");
-        for (TestResult result : testResults) {
-            // Set color for the status based on pass/fail/skip
-            String statusColor = "";
-            if (result.getStatus().equalsIgnoreCase("PASS")) {
-                statusColor = "background-color: #2ecc71; color: white;"; // Green for pass
-            } else if (result.getStatus().equalsIgnoreCase("FAIL")) {
-                statusColor = "background-color: #e74c3c; color: white;"; // Red for fail
-            } else if (result.getStatus().equalsIgnoreCase("SKIPPED")) {
-                statusColor = "background-color: #f39c12; color: white;"; // Yellow for skipped
-            }
-
-            // Add test case row with status color
-            htmlContent.append("<tr>");
-            htmlContent.append("<td style='padding: 8px;'>" + result.getSno() + "</td>");
-            htmlContent.append("<td style='padding: 8px;'>" + result.getName() + "</td>");
-            htmlContent.append("<td style='" + statusColor + " padding: 8px;'>" + result.getStatus() + "</td>");
-            htmlContent.append("<td style='padding: 8px;'>" + result.getDuration() + "</td>");
-            htmlContent.append("<td style='padding: 8px;'>" + result.getBrowser() + "</td>");
-            htmlContent.append("<td style='padding: 8px;'>" + result.getErrorMessage() + "</td>");
-            htmlContent.append("<td style='padding: 8px;'>" + result.getScreenshotPath() + "</td>");
-            htmlContent.append("</tr>");
-        }
-        htmlContent.append("</tbody>");
-        htmlContent.append("</table>");
-
-        htmlContent.append("</body></html>");
-
-        // Save the new report to a file with the timestamp
-        try (FileWriter writer = new FileWriter(reportFilePath)) {
-            writer.write(htmlContent.toString());
-        }
-
-        // Log the file path of the newly created report
-        System.out.println("HTML Report generated at: " + reportFilePath);
-
-        // Copy the newly generated report to the 'latest.html' for Jenkins or email to use
-        File latestReportFile = new File(latestReportPath);
-        if (latestReportFile.exists()) {
-            latestReportFile.delete();  // Delete the old 'latest.html' if it exists
-        }
-
-        // Copy the new report to 'latest.html'
-        File newReportFile = new File(reportFilePath);
-        newReportFile.renameTo(latestReportFile);
-        System.out.println("Latest report is now: " + latestReportPath);
+    @Override
+    public void onTestStart(ITestResult result) {
+        startTimes.put(result, System.currentTimeMillis());
     }
 
+    @Override
+    public void onTestSuccess(ITestResult result) {
+        record(result, "PASSED", null);
+    }
+
+    @Override
+    public void onTestFailure(ITestResult result) {
+        Throwable throwable = result.getThrowable();
+        String errorMessage = (throwable != null) ? throwable.getMessage() : "Unknown error";
+        record(result, "FAILED", errorMessage);
+    }
+
+    @Override
+    public void onTestSkipped(ITestResult result) {
+        record(result, "SKIPPED", "Test was skipped");
+    }
+
+    private void record(ITestResult result, String status, String errorMessage) {
+        long start = startTimes.getOrDefault(result, System.currentTimeMillis());
+        long duration = System.currentTimeMillis() - start;
+        String testName = result.getMethod().getMethodName();
+        String browser = System.getProperty("browser", "chrome"); // Customize if needed
+
+        testResults.add(new TestResult(
+                counter++,
+                testName,
+                status,
+                duration,
+                browser,
+                errorMessage == null ? "" : errorMessage
+        ));
+    }
+
+    @Override
+    public void onFinish(ITestContext context) {
+        try {
+            CustomReportListener.generateReport(testResults, "test-output/custom-reports");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void generateReport(List<TestResult> testResults, String reportFolderPath) throws Exception {
+        File reportFolder = new File(reportFolderPath);
+        if (!reportFolder.exists()) {
+            reportFolder.mkdirs();
+        }
+
+        String timestamp = new SimpleDateFormat("dd-MM-yyyy hh:mm a").format(new Date());
+        String reportFilePath = reportFolderPath + File.separator + "TestExecutionReport_" + timestamp.replace(":", ".") + ".html";
+        String latestReportPath = reportFolderPath + File.separator + "latest.html";
+
+        int total = testResults.size();
+        int passed = (int) testResults.stream().filter(r -> r.getStatus().equalsIgnoreCase("PASSED")).count();
+        int failed = (int) testResults.stream().filter(r -> r.getStatus().equalsIgnoreCase("FAILED")).count();
+        int skipped = (int) testResults.stream().filter(r -> r.getStatus().equalsIgnoreCase("SKIPPED")).count();
+        double passPercentage = total == 0 ? 0.0 : (passed * 100.0 / total);
+
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        StringBuilder html = new StringBuilder();
+        html.append("<html><body style='font-family: Arial;'>");
+        html.append("<h2>Hi,</h2>");
+        html.append("<p>Please find the below Test execution report</p>");
+        html.append("<h2 style='color: #2c3e50;'>Test Execution Report for ").append(timestamp).append("</h2>");
+
+        // Summary Table
+        html.append("<h3>Test Execution Summary</h3>");
+        html.append("<table border='1' style='border-collapse: collapse; width: 50%; text-align: center;'>");
+        html.append("<tr><th>Total Test Cases</th><td style='font-weight: normal;'>").append(total).append("</td></tr>");
+        html.append("<tr><th>Passed</th><td style='color: green; font-weight: normal;'>").append(passed).append("</td></tr>");
+        html.append("<tr><th>Failed</th><td style='color: red; font-weight: normal;'>").append(failed).append("</td></tr>");
+        html.append("<tr><th>Skipped</th><td style='color: orange; font-weight: normal;'>").append(skipped).append("</td></tr>");
+        html.append("<tr><th>Pass Percentage</th><td style='font-weight: normal;'>").append(df.format(passPercentage)).append(" %</td></tr>");
+        html.append("</table><br>");
+
+        // Details Table
+        html.append("<h3>Test Case Details</h3>");
+        html.append("<table border='1' style='border-collapse: collapse; width: 100%; text-align: center;'>");
+        html.append("<tr style='background-color: #f39c12; color: white;'>");
+        html.append("<th>S.No</th><th>Test Case Name</th><th>Status</th><th>Duration (min)</th><th>Browser</th><th>Error Message</th></tr>");
+
+        for (TestResult result : testResults) {
+            double durationMin = result.getDuration() / (60.0 * 1000.0);
+            String statusColor;
+            switch (result.getStatus().toUpperCase()) {
+                case "PASSED":
+                    statusColor = "green";
+                    break;
+                case "FAILED":
+                    statusColor = "red";
+                    break;
+                case "SKIPPED":
+                    statusColor = "orange";
+                    break;
+                default:
+                    statusColor = "black";
+            }
+
+            html.append("<tr>");
+            html.append("<td>").append(result.getSno()).append("</td>");
+            html.append("<td>").append(result.getName()).append("</td>");
+            html.append("<td style='color: ").append(statusColor).append("; font-weight: bold;'>").append(result.getStatus()).append("</td>");
+            html.append("<td>").append(df.format(durationMin)).append("</td>");
+            html.append("<td>").append(result.getBrowser()).append("</td>");
+            html.append("<td>").append(result.getErrorMessage() != null ? result.getErrorMessage() : "").append("</td>");
+            html.append("</tr>");
+        }
+
+        html.append("</table></body></html>");
+
+        // Write to file
+        try (FileWriter writer = new FileWriter(reportFilePath)) {
+            writer.write(html.toString());
+        }
+
+        // Copy to latest.html
+        File latest = new File(latestReportPath);
+        if (latest.exists()) latest.delete();
+        new File(reportFilePath).renameTo(latest);
+    }
 }

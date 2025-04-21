@@ -5,6 +5,13 @@ package testrunner;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
+import org.testng.TestListenerAdapter;
+import org.testng.TestNG;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+import stepdefinitions.Hooks;
+import utilities.CustomReportListener;
 
 
 @CucumberOptions(
@@ -12,17 +19,20 @@ import io.cucumber.testng.CucumberOptions;
                 "rerun:target/FailedRerun.txt"
         },
         features = {"src/main/resources/Features"},		glue= {"stepdefinitions"},
-        tags = "@TestNG"
+        tags = "@SmokeTest"
 
 
 )
+@Listeners(utilities.CustomReportListener.class)
 public class TestNGrunner extends AbstractTestNGCucumberTests {
 
-//    @DataProvider(parallel = true)
-//    @Override
-//    public Object[][] scenarios(){
-//
-//        return super.scenarios();
-//    }
-
+    @AfterSuite
+    public void generateHtmlReport() {
+        try {
+            CustomReportListener.generateReport(Hooks.testResults, "test-output/custom-reports");
+            System.out.println("✅ Custom HTML report generated afxter suite.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

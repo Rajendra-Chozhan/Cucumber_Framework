@@ -3,11 +3,12 @@
 <suite name="ParallelCucumberSuite" parallel="tests" thread-count="2">
     <listeners>
         <listener class-name="utilities.ExtentReportListener"/>
+        <listener class-name="utilities.CustomReportListener"/>
     </listeners>
     <test name="CucumberTests">
         <classes>
             <class name="testrunner.TestNGrunner"/>
         </classes>
 
-    </test>
+         </test>
 </suite>
