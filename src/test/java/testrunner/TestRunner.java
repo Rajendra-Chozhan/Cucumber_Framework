@@ -15,9 +15,9 @@ import utilities.CustomReportListener;
 		},
 		features = {"src/main/resources/Features"},		glue= {"stepdefinitions"},
 		tags = "@SmokeTest"
-		
-		
-		)
+
+
+)
 
 
 @Listeners(utilities.CustomReportListener.class)

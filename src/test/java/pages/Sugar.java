@@ -1,6 +1,7 @@
 package pages;
 
 import basepackage.BaseClass;
+import basepackage.BrowserManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -10,19 +11,13 @@ import org.openqa.selenium.support.PageFactory;
 import basepackage.BaseClass;
 
 public class Sugar extends BaseClass {
-	
-	
-WebDriver ldriver;
-	public Sugar(WebDriver rdriver)
-	{
 
-		ldriver = rdriver;
+	WebDriver driver;
 
-		PageFactory.initElements(rdriver,this);
-
+	public Sugar() {
+		this.driver = BrowserManager.getDriver(); // ✅ Get actual WebDriver instance
+		PageFactory.initElements(this.driver, this);
 	}
-
-	
 	@FindBy(xpath="//a[@id='CC-guidedNavigation-dimensionHeader-0']")
 	public WebElement SIZE;
 	

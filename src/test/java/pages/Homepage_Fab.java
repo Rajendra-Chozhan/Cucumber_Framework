@@ -3,9 +3,11 @@ package pages;
 import java.util.concurrent.TimeUnit;
 
 import basepackage.BaseClass;
-import org.openqa.selenium.By;
+
+import basepackage.BrowserManager;
+import basepackage.DriverFactory;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -16,17 +18,13 @@ import org.openqa.selenium.support.PageFactory;
 import basepackage.BaseClass;
 
 public class Homepage_Fab extends BaseClass{
+	WebDriver driver;
 
-	
-WebDriver ldriver;
-	public Homepage_Fab(WebDriver rdriver)
-		{
-
-		ldriver = rdriver;
-		PageFactory.initElements(rdriver,this);
-
+	public Homepage_Fab() {
+//		this.driver = BrowserManager.getDriver();
+		this.driver = DriverFactory.getDriver();
+		PageFactory.initElements(this.driver, this);
 	}
-
 	@FindBy(xpath = "//button[@class='border-0 bg-transparent']//*[name()='svg']")
 	public  WebElement ProfileButton;
 	public void clickProfileIcon()
@@ -194,7 +192,7 @@ WebDriver ldriver;
 		
 
 	    highLighterMethod(driver,LinenDobbyWeaveLongKurta);
-	    driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS) ;
+		driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS) ;
 
 	    LinenDobbyWeaveLongKurta.click();
 		
