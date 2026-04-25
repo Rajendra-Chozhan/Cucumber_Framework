@@ -21,10 +21,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Homepage_Fab extends BaseClass{
 	WebDriver driver;
 
-			public Homepage_Fab(WebDriver driver) {
+		public Homepage_Fab(WebDriver driver) {
 			this.driver = driver;
-			PageFactory.initElements(driver, this);
+			PageFactory.initElements(driver, this);  // ONLY THIS
 		}
+
 
 	@FindBy(xpath = "//button[@class='border-0 bg-transparent']//*[name()='svg']")
 	public  WebElement ProfileButton;
@@ -36,12 +37,17 @@ public class Homepage_Fab extends BaseClass{
 
 	@FindBy(xpath = "//button[normalize-space()='Login using password']")
 	public  WebElement LoginButton;
-	public void clickLogin()
-	{
-		highLighterMethod(driver,LoginButton);
-		LoginButton.click();
-	}
 
+	public void clickLogin() {
+
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+		WebElement loginBtn = wait.until(
+				ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Login']"))
+		);
+
+		loginBtn.click();
+	}
 	@FindBy(xpath = "//input[@id='logiemail']")
 	public WebElement EmailField;
 	public void enterEmail(String email)
@@ -62,17 +68,15 @@ public class Homepage_Fab extends BaseClass{
 	@FindBy(xpath = "//button[@id='send-otp']")
 	public  WebElement loginButton;
 
-	public void clicklogin()
-	{
-		highLighterMethod(driver,loginButton);
-		loginButton.click();
-	}
+
 
 	@FindBy(xpath = "//button[@class='border-0 bg-transparent']//*[name()='svg']")
 	public  WebElement AccountButton;
-	public void clickAccountIcon()
-	{
-		highLighterMethod(driver,AccountButton);
+	public void clickAccountIcon() throws InterruptedException {
+		Actions act = new Actions(driver);
+		act.moveToElement(Location_ICON).perform();
+		act.moveToElement(AccountButton).perform();
+		wait(6000);
 		AccountButton.click();
 	}
 
@@ -81,10 +85,9 @@ public class Homepage_Fab extends BaseClass{
 
 	public  WebElement logoutButton =  wait.until(
 			ExpectedConditions.elementToBeClickable(
-			By.xpath("//button[normalize-space()='Log Out']")));
+			By.xpath("//*[contains(text(),'Log Out')]")));
 
-	public void clicklogout()
-	{
+	public void clicklogout() throws InterruptedException {wait(200);
 		logoutButton.click();
 	}
 

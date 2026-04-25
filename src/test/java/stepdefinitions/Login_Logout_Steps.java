@@ -20,7 +20,7 @@ public class Login_Logout_Steps {
 	WebDriver driver;
 	Homepage_Fab hp;
 
-	// ✅ FIX: Initialize driver AFTER @Before hook
+	// ✅ CORRECT: Initialize driver ONLY here
 	@Before
 	public void init() {
 		driver = DriverManager.getDriver();
@@ -47,8 +47,7 @@ public class Login_Logout_Steps {
 			String email = config.getUserData(userType + ".email");
 			String password = config.getUserData(userType + ".password");
 
-			// ✅ FIX: pass driver to page
-			hp = new Homepage_Fab(driver);
+			hp = new Homepage_Fab(driver); // ✅ correct
 
 			hp.clickProfileIcon();
 			captureScreen(driver, "LoginTest");
@@ -64,7 +63,7 @@ public class Login_Logout_Steps {
 			logger.info("Entered Password for user: " + userType);
 			captureScreen(driver, "LoginTest");
 
-			hp.clicklogin();
+			hp.clickLogin();
 			logger.info("Clicked Login Button");
 			captureScreen(driver, "LoginTest");
 
@@ -78,7 +77,7 @@ public class Login_Logout_Steps {
 	public void clicks_on_account_info() {
 
 		try {
-			hp = new Homepage_Fab(driver); // ✅ FIX
+			hp = new Homepage_Fab(driver);
 			hp.clickAccountIcon();
 			logger.info("Clicked Account Icon");
 
@@ -92,7 +91,7 @@ public class Login_Logout_Steps {
 	public void verify_the_UI_elements_in_homepage() throws InterruptedException {
 
 		try {
-			hp = new Homepage_Fab(driver); // ✅ FIX
+			hp = new Homepage_Fab(driver);
 
 			hp.verify_FabIndiaicon();
 			hp.verify_Carticon();
@@ -110,10 +109,11 @@ public class Login_Logout_Steps {
 	}
 
 	@And("user signs out of the application")
-	public void signs_out_of_the_application() {
+	public void signs_out_of_the_application() throws InterruptedException {
 
 		try {
-			hp = new Homepage_Fab(driver); // ✅ FIX
+			hp = new Homepage_Fab(driver);
+			wait(3000);
 			hp.clicklogout();
 			logger.info("Clicked Logout");
 
