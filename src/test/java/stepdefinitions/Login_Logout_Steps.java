@@ -39,7 +39,7 @@ public class Login_Logout_Steps {
 	}
 
 	@When("user logs in as {string}")
-	public void login_as_user(String userType) throws IOException {
+	public void login_as_user(String userType) throws IOException, InterruptedException {
 
 		try {
 			Readconfigfile config = new Readconfigfile();
