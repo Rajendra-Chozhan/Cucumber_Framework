@@ -1,151 +1,138 @@
 package pages;
 
-import java.time.Duration;
-
 import basepackage.BaseClass;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
+
+import java.time.Duration;
 
 public class Homepage_Fab extends BaseClass {
 
 	WebDriver driver;
 	WebDriverWait wait;
 
-	// ✅ Constructor (ONLY initialization)
 	public Homepage_Fab(WebDriver driver) {
 		this.driver = driver;
-		this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+		this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		PageFactory.initElements(driver, this);
 	}
 
+	// ================= COMMON METHODS =================
 
-	public WebElement waitForElement(By locator) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-
+	public void waitForPageLoad() {
 		wait.until(driver -> ((JavascriptExecutor) driver)
 				.executeScript("return document.readyState").equals("complete"));
-
-		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
 	}
-	// ================= LOGIN =================
 
-	@FindBy(xpath = "//button[@class='border-0 bg-transparent']//*[name()='svg']")
-	WebElement profileButton;
+	public WebElement getFreshElement(By locator) {
+		return wait.until(driver -> {
+			try {
+				WebElement element = driver.findElement(locator);
+				return (element.isDisplayed()) ? element : null;
+			} catch (StaleElementReferenceException e) {
+				return null;
+			}
+		});
+	}
+
+	public void safeClick(By locator) {
+		WebElement element = getFreshElement(locator);
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+		element.click();
+	}
+
+	public void safeSendKeys(By locator, String value) {
+		WebElement element = getFreshElement(locator);
+		element.clear();
+		element.sendKeys(value);
+	}
+
+	public void scrollIntoView(By locator) {
+		WebElement element = getFreshElement(locator);
+		((JavascriptExecutor) driver)
+				.executeScript("arguments[0].scrollIntoView(true);", element);
+	}
+
+	// ================= LOCATORS =================
+
+	By profileButton = By.xpath("//button[@class='border-0 bg-transparent']//*[name()='svg']");
+	By loginButton = By.xpath("//button[contains(text(),'Login')]");
+	By emailField = By.id("logiemail");
+	By passwordField = By.id("logipass");
+	By submitLogin = By.id("send-otp");
+
+	By accountButton = By.xpath("//button[@class='border-0 bg-transparent']//*[name()='svg']");
+	By locationIcon = By.xpath("//img[contains(@src,'Store')]");
+	By logoutButton = By.xpath("//button[normalize-space()='Log Out']");
+
+	By fabIndiaIcon = By.xpath("//img[@alt='FabIndia']");
+	By searchIcon = By.xpath("//div[contains(@class,'search')]//i[contains(@class,'magnifying-glass')]");
+	By wishlistIcon = By.xpath("//a[@class='wishlist_icon_header']");
+	By cartIcon = By.xpath("//a[contains(@aria-label,'cart')]");
+	By copyRightsText = By.xpath("//div[@class='cx-notice']");
+
+	// ================= ACTIONS =================
 
 	public void clickProfileIcon() {
-		wait.until(ExpectedConditions.elementToBeClickable(profileButton)).click();
+		safeClick(profileButton);
 	}
 
-	@FindBy(xpath = "//button[contains(text(),'Login')]")
-	WebElement loginButton;
-
-	public void clickLogin() throws InterruptedException {
-		wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
+	public void clickLogin() {
+		safeClick(loginButton);
 	}
-
-	@FindBy(id = "logiemail")
-	WebElement emailField;
 
 	public void enterEmail(String email) {
-		wait.until(ExpectedConditions.visibilityOf(emailField));
-		highLighterMethod(driver, emailField);
-		emailField.sendKeys(email);
+		safeSendKeys(emailField, email);
 	}
-
-	@FindBy(id = "logipass")
-	WebElement passwordField;
 
 	public void enterPassword(String password) {
-		wait.until(ExpectedConditions.visibilityOf(passwordField));
-		highLighterMethod(driver, passwordField);
-		passwordField.sendKeys(password);
+		safeSendKeys(passwordField, password);
 	}
-
-	@FindBy(id = "send-otp")
-	WebElement submitLogin;
 
 	public void clickSubmitLogin() {
-		wait.until(ExpectedConditions.elementToBeClickable(submitLogin)).click();
+		safeClick(submitLogin);
 	}
-
-	// ================= ACCOUNT =================
-
-	@FindBy(xpath = "//button[@class='border-0 bg-transparent']//*[name()='svg']")
-	WebElement accountButton;
-
-	@FindBy(xpath = "//img[contains(@src,'Store')]")
-	WebElement locationIcon;
 
 	public void clickAccountIcon() {
+		waitForPageLoad();
 		Actions act = new Actions(driver);
-		act.moveToElement(locationIcon).perform();
-		act.moveToElement(accountButton).perform();
-		wait.until(ExpectedConditions.elementToBeClickable(accountButton)).click();
+		act.moveToElement(getFreshElement(locationIcon)).perform();
+		act.moveToElement(getFreshElement(accountButton)).perform();
+		safeClick(accountButton);
 	}
-
-	// ================= LOGOUT =================
-
-	@FindBy(xpath = "//button[normalize-space()='Log Out']")
-	WebElement logoutButton;
 
 	public void clickLogout() {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-
-		WebElement logoutBtn = wait.until(ExpectedConditions.elementToBeClickable(
-				By.xpath("//button[normalize-space()='Log Out']")));
-
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", logoutBtn);
+		WebElement element = getFreshElement(logoutButton);
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
 	}
 
-	// ================= UI VALIDATIONS =================
-
-	@FindBy(xpath = "//img[@alt='FabIndia']")
-	WebElement fabIndiaIcon;
+	// ================= VALIDATIONS =================
 
 	public void verify_FabIndiaicon() {
-		wait.until(ExpectedConditions.visibilityOf(fabIndiaIcon));
-		fabIndiaIcon.isDisplayed();
+		getFreshElement(fabIndiaIcon).isDisplayed();
 	}
-
-	@FindBy(xpath = "//div[contains(@class,'search')]//i[contains(@class,'magnifying-glass')]")
-	WebElement searchIcon;
 
 	public void verify_Searchicon() {
-		wait.until(ExpectedConditions.visibilityOf(searchIcon));
-		searchIcon.isDisplayed();
+		getFreshElement(searchIcon).isDisplayed();
 	}
-
-	@FindBy(xpath = "//a[@class='wishlist_icon_header']")
-	WebElement wishlistIcon;
 
 	public void verify_Wishlisticon() {
-		wait.until(ExpectedConditions.visibilityOf(wishlistIcon));
-		wishlistIcon.isDisplayed();
+		getFreshElement(wishlistIcon).isDisplayed();
 	}
-
-	@FindBy(xpath = "//a[contains(@aria-label,'cart')]")
-	WebElement cartIcon;
 
 	public void verify_Carticon() {
-		wait.until(ExpectedConditions.visibilityOf(cartIcon));
-		cartIcon.isDisplayed();
+		getFreshElement(cartIcon).isDisplayed();
 	}
 
-	@FindBy(xpath = "//div[@class='cx-notice']")
-	WebElement copyRightsText;
-
 	public void verify_CopyRightsText() {
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", copyRightsText);
-		wait.until(ExpectedConditions.visibilityOf(copyRightsText));
-		copyRightsText.isDisplayed();
+		waitForPageLoad();
+		scrollIntoView(copyRightsText);
+		getFreshElement(copyRightsText).isDisplayed();
 	}
 
 	public void verify_FabLocationicon() {
-		waitForElement((By) locationIcon);
-		locationIcon.isDisplayed();
+		getFreshElement(locationIcon).isDisplayed();
 	}
 }
