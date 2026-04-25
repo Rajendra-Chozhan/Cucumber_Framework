@@ -31,7 +31,7 @@ public class Homepage_Fab extends BaseClass {
 		wait.until(ExpectedConditions.elementToBeClickable(profileButton)).click();
 	}
 
-	@FindBy(xpath = "//button[normalize-space()='Login using password']")
+	@FindBy(xpath = "//button[normalize-space(text())='Login using password']")
 	WebElement loginButton;
 
 	public void clickLogin() {
