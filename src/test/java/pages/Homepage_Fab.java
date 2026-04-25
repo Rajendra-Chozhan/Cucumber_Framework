@@ -35,7 +35,6 @@ public class Homepage_Fab extends BaseClass {
 	WebElement loginButton;
 
 	public void clickLogin() throws InterruptedException {
-		wait(3000);
 		wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
 	}
 
