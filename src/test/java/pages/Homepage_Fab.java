@@ -68,7 +68,7 @@ public class Homepage_Fab extends BaseClass {
 	@FindBy(xpath = "//button[@class='border-0 bg-transparent']//*[name()='svg']")
 	WebElement accountButton;
 
-	@FindBy(xpath = "//img[@src='../../../assets/images/Store Locatorsvg.svg']")
+	@FindBy(xpath = "//img[contains(@src,'Store')]")
 	WebElement locationIcon;
 
 	public void clickAccountIcon() {
