@@ -8,8 +8,9 @@ import org.testng.annotations.Listeners;
 @CucumberOptions(
 		plugin = {
 				"pretty",
-				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
-				"rerun:target/FailedRerun.txt"
+				"html:target/cucumber-reports/report.html",
+				"json:target/cucumber.json",
+				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
 		},
 		features = {"src/main/resources/Features"},
 		glue = {"stepdefinitions"},
