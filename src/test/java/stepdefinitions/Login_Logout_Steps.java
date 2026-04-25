@@ -74,7 +74,7 @@ public class Login_Logout_Steps {
 	}
 
 	@And("user clicks on Account Info")
-	public void clicks_on_account_info() {
+	public void clicks_on_account_info() throws InterruptedException {
 
 		try {
 			hp = new Homepage_Fab(driver);
