@@ -127,9 +127,32 @@ public class Homepage_Fab extends BaseClass {
 	}
 
 	public void verify_CopyRightsText() {
-		waitForPageLoad();
-		scrollIntoView(copyRightsText);
-		getFreshElement(copyRightsText).isDisplayed();
+
+		By locator = By.xpath("//div[@class='cx-notice']");
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+		wait.until(driver -> ((JavascriptExecutor) driver)
+				.executeScript("return document.readyState").equals("complete"));
+
+		for (int i = 0; i < 3; i++) {
+			try {
+				WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+
+				((JavascriptExecutor) driver)
+						.executeScript("arguments[0].scrollIntoView(true);", element);
+
+				wait.until(ExpectedConditions.visibilityOf(element));
+
+				if (element.isDisplayed()) {
+					return; // SUCCESS
+				}
+
+			} catch (StaleElementReferenceException e) {
+				System.out.println("Retrying stale element for CopyRightsText...");
+			}
+		}
+
+		throw new RuntimeException("CopyRightsText element not stable after retries");
 	}
 
 	public void verify_FabLocationicon() {
