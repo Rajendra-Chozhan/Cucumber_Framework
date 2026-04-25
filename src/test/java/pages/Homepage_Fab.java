@@ -31,10 +31,11 @@ public class Homepage_Fab extends BaseClass {
 		wait.until(ExpectedConditions.elementToBeClickable(profileButton)).click();
 	}
 
-	@FindBy(xpath = "//button[normalize-space(text())='Login using password']")
+	@FindBy(xpath = "//button[contains(text(),'Login')]")
 	WebElement loginButton;
 
-	public void clickLogin() {
+	public void clickLogin() throws InterruptedException {
+		wait(3000);
 		wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
 	}
 
