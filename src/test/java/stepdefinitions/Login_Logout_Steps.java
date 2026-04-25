@@ -36,34 +36,40 @@ public class Login_Logout_Steps extends BaseClass{
 		}
 	}
 
-	@When("user sign in to the application")
-	public void signin() throws IOException {
+	@When("user logs in as {string}")
+	public void login_as_user(String userType) throws IOException {
 
 		try {
+			Readconfigfile config = new Readconfigfile();
+
+			String email = config.getUserData(userType + ".email");
+			String password = config.getUserData(userType + ".password");
+
 			hp = new Homepage_Fab();
-			currentDriver.manage().timeouts().implicitlyWait(555, TimeUnit.SECONDS);
+
+			currentDriver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
+
 			hp.clickProfileIcon();
-			logger.info("Clicked Profile Icon");
 			captureScreen(currentDriver, "LoginTest");
-			currentDriver.manage().timeouts().implicitlyWait(500, TimeUnit.SECONDS);
+
 			hp.clickLogin();
 			captureScreen(currentDriver, "LoginTest");
-			currentDriver.manage().timeouts().implicitlyWait(555, TimeUnit.SECONDS);
-			hp.enterEmail(Email);
-			logger.info("Entered Email");
+
+			hp.enterEmail(email);
+			logger.info("Entered Email for user: " + userType);
 			captureScreen(currentDriver, "LoginTest");
-			currentDriver.manage().timeouts().implicitlyWait(555, TimeUnit.SECONDS);
-			hp.enterPassword(Password);
-			logger.info("Entered Password");
+
+			hp.enterPassword(password);
+			logger.info("Entered Password for user: " + userType);
 			captureScreen(currentDriver, "LoginTest");
-			currentDriver.manage().timeouts().implicitlyWait(555, TimeUnit.SECONDS);
+
 			hp.clicklogin();
 			logger.info("Clicked Login Button");
 			captureScreen(currentDriver, "LoginTest");
-			currentDriver.manage().timeouts().implicitlyWait(555, TimeUnit.SECONDS);
+
 		} catch (Exception e) {
 			ErrorTracker.setError(e);
-			throw e; // Re-throw so Cucumber knows it's a failure
+			throw e;
 		}
 	}
 

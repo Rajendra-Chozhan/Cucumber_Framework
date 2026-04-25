@@ -8,15 +8,12 @@ import org.testng.annotations.Listeners;
 @CucumberOptions(
 		plugin = {
 				"pretty",
-				"html:target/cucumber-reports/report.html",
-				"json:target/cucumber-reports/report.json",
 				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
 				"rerun:target/FailedRerun.txt"
 		},
 		features = {"src/main/resources/Features"},
 		glue = {"stepdefinitions"},
-		// Comment tags for now to see if tests are detected
-		 tags = "@SmokeTest",
+		tags = "@SmokeTest",
 		monochrome = true
 )
 @Listeners(utilities.CustomReportListener.class)

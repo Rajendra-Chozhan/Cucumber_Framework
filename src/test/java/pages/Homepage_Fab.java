@@ -1,5 +1,6 @@
 package pages;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import basepackage.*;
@@ -14,6 +15,8 @@ import org.openqa.selenium.support.PageFactory;
 
 
 import basepackage.BaseClass;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Homepage_Fab extends BaseClass{
 	WebDriver driver;
@@ -74,11 +77,15 @@ public class Homepage_Fab extends BaseClass{
 	}
 
 	@FindBy(xpath = "//button[normalize-space()='Log Out']")
-	public  WebElement logoutButton;
+	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+	public  WebElement logoutButton =  wait.until(
+			ExpectedConditions.elementToBeClickable(
+			By.xpath("//button[normalize-space()='Log Out']")));
 
 	public void clicklogout()
 	{
-	        logoutButton.click();
+		logoutButton.click();
 	}
 
 	

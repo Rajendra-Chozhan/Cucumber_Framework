@@ -38,8 +38,11 @@ public class Readconfigfile {
 			String url=pro.getProperty("BaseURL");
 			return url;
 		}
-		
-		
+
+	public String getUserData(String key) {
+		return pro.getProperty(key);
+	}
+
 	public String getEmail() {
 			
 			String email=pro.getProperty("Email");
