@@ -9,6 +9,11 @@ import utilities.Readconfigfile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class BaseClass {
 
@@ -43,16 +48,24 @@ public class BaseClass {
         return new java.text.SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new java.util.Date());
     }
 
-    public static void captureScreen(WebDriver driver, String tname) throws IOException {
+    public static synchronized String captureScreen(WebDriver driver, String testName) {
+
+        String timestamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+
+        String fileName = testName + "_" + Thread.currentThread().getId() + "_" + timestamp + ".png";
+
+        String path = System.getProperty("user.dir") + "/Screenshots/" + fileName;
+
+        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
         try {
-            TakesScreenshot ts = (TakesScreenshot) driver;
-            File source = ts.getScreenshotAs(OutputType.FILE);
-            File target = new File(System.getProperty("user.dir") + "/Screenshots/" + "/Snapshots/" + tname + timestamp() + ".png");
-            org.apache.commons.io.FileUtils.copyFile(source, target);
-            System.out.println("Screenshot taken");
-        } catch (Exception e) {
-            System.out.println("Exception while taking screenshot" + e.getMessage());
+            Files.createDirectories(Paths.get(System.getProperty("user.dir") + "/Screenshots/"));
+            Files.copy(src.toPath(), Paths.get(path), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        return path;
     }
 
 

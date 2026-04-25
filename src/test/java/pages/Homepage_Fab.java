@@ -22,6 +22,15 @@ public class Homepage_Fab extends BaseClass {
 		PageFactory.initElements(driver, this);
 	}
 
+
+	public WebElement waitForElement(By locator) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+		wait.until(driver -> ((JavascriptExecutor) driver)
+				.executeScript("return document.readyState").equals("complete"));
+
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+	}
 	// ================= LOGIN =================
 
 	@FindBy(xpath = "//button[@class='border-0 bg-transparent']//*[name()='svg']")
@@ -83,8 +92,13 @@ public class Homepage_Fab extends BaseClass {
 	@FindBy(xpath = "//button[normalize-space()='Log Out']")
 	WebElement logoutButton;
 
-	public void clicklogout() {
-		wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
+	public void clickLogout() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+		WebElement logoutBtn = wait.until(ExpectedConditions.elementToBeClickable(
+				By.xpath("//button[normalize-space()='Log Out']")));
+
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", logoutBtn);
 	}
 
 	// ================= UI VALIDATIONS =================
@@ -131,7 +145,7 @@ public class Homepage_Fab extends BaseClass {
 	}
 
 	public void verify_FabLocationicon() {
-		wait.until(ExpectedConditions.visibilityOf(locationIcon));
+		waitForElement((By) locationIcon);
 		locationIcon.isDisplayed();
 	}
 }

@@ -113,7 +113,7 @@ public class Login_Logout_Steps {
 
 		try {
 			hp = new Homepage_Fab(driver);
-			hp.clicklogout();
+			hp.clickLogout();
 			logger.info("Clicked Logout");
 
 		} catch (Exception e) {
