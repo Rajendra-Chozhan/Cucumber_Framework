@@ -1,34 +1,36 @@
 package stepdefinitions;
 
 import basepackage.DriverManager;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.Test;
 import utilities.*;
-import basepackage.BaseClass;
 import pages.Homepage_Fab;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
-public class Login_Logout_Steps extends BaseClass{
+import static basepackage.BaseClass.captureScreen;
+
+public class Login_Logout_Steps {
 
 	private static final Logger logger = LogManager.getLogger(Login_Logout_Steps.class);
-	//WebDriver currentDriver = BrowserManager.getDriver();
-	WebDriver currentDriver = DriverManager.getDriver();
 
-	@Test(description = "Login Test")
+	WebDriver driver;
+	Homepage_Fab hp;
+
+	// ✅ FIX: Initialize driver AFTER @Before hook
+	@Before
+	public void init() {
+		driver = DriverManager.getDriver();
+	}
+
 	@Given("user launches the URL")
 	public void user_launches_application() {
 
 		try {
-			currentDriver.get(BaseURL);
+			driver.get(new Readconfigfile().getApplicationURL());
 			logger.info("Navigated to URL");
 		} catch (Exception e) {
 			ErrorTracker.setError(e);
@@ -45,27 +47,26 @@ public class Login_Logout_Steps extends BaseClass{
 			String email = config.getUserData(userType + ".email");
 			String password = config.getUserData(userType + ".password");
 
-			hp = new Homepage_Fab();
-
-			currentDriver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
+			// ✅ FIX: pass driver to page
+			hp = new Homepage_Fab(driver);
 
 			hp.clickProfileIcon();
-			captureScreen(currentDriver, "LoginTest");
+			captureScreen(driver, "LoginTest");
 
 			hp.clickLogin();
-			captureScreen(currentDriver, "LoginTest");
+			captureScreen(driver, "LoginTest");
 
 			hp.enterEmail(email);
 			logger.info("Entered Email for user: " + userType);
-			captureScreen(currentDriver, "LoginTest");
+			captureScreen(driver, "LoginTest");
 
 			hp.enterPassword(password);
 			logger.info("Entered Password for user: " + userType);
-			captureScreen(currentDriver, "LoginTest");
+			captureScreen(driver, "LoginTest");
 
 			hp.clicklogin();
 			logger.info("Clicked Login Button");
-			captureScreen(currentDriver, "LoginTest");
+			captureScreen(driver, "LoginTest");
 
 		} catch (Exception e) {
 			ErrorTracker.setError(e);
@@ -74,129 +75,51 @@ public class Login_Logout_Steps extends BaseClass{
 	}
 
 	@And("user clicks on Account Info")
-	public void clicks_on_account_info() throws IOException {
+	public void clicks_on_account_info() {
+
 		try {
-			hp = new Homepage_Fab();
-			currentDriver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
-			captureScreen(currentDriver, "LoginTest");
+			hp = new Homepage_Fab(driver); // ✅ FIX
 			hp.clickAccountIcon();
 			logger.info("Clicked Account Icon");
-			currentDriver.manage().timeouts().implicitlyWait(110, TimeUnit.SECONDS);
+
 		} catch (Exception e) {
 			ErrorTracker.setError(e);
-			throw e; // Re-throw so Cucumber knows it's a failure
+			throw e;
 		}
 	}
 
 	@Then("User verify the UI Elements in Homepage")
-	public void verify_the_UI_elements_in_homepage() throws InterruptedException, IOException {
-			try {
-			hp = new Homepage_Fab();
-			captureScreen(currentDriver, "Verify UI Element Test");
-			currentDriver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
+	public void verify_the_UI_elements_in_homepage() throws InterruptedException {
+
+		try {
+			hp = new Homepage_Fab(driver); // ✅ FIX
+
 			hp.verify_FabIndiaicon();
-			captureScreen(currentDriver, "Verify UI Element Test");
 			hp.verify_Carticon();
-			currentDriver.manage().timeouts().implicitlyWait(110, TimeUnit.SECONDS);
 			hp.verify_Searchicon();
 			hp.verify_Wishlisticon();
-			captureScreen(currentDriver, "Verify UI Element Test");
-			currentDriver.manage().timeouts().implicitlyWait(110, TimeUnit.SECONDS);
 			hp.verify_FabLocationicon();
-			captureScreen(currentDriver, "Verify UI Element Test");
 			hp.verify_CopyRightsText();
-			currentDriver.manage().timeouts().implicitlyWait(110, TimeUnit.SECONDS);
+
 			logger.info("Verified UI Elements");
+
 		} catch (Exception e) {
 			ErrorTracker.setError(e);
-			throw e; // Re-throw so Cucumber knows it's a failure
+			throw e;
 		}
 	}
 
 	@And("user signs out of the application")
-	public void signs_out_of_the_application() throws InterruptedException {
+	public void signs_out_of_the_application() {
 
 		try {
-			hp = new Homepage_Fab();
+			hp = new Homepage_Fab(driver); // ✅ FIX
 			hp.clicklogout();
 			logger.info("Clicked Logout");
-			currentDriver.quit();
-			Thread.sleep(1000);
+
 		} catch (Exception e) {
 			ErrorTracker.setError(e);
-			throw e; // Re-throw so Cucumber knows it's a failure
+			throw e;
 		}
 	}
-
-	@When("^User Sign into the application with (.*) and (.*)$")
-	public void signintotheapplication(String Email, String Password) throws IOException {
-
-		try {
-			hp = new Homepage_Fab();
-			currentDriver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
-			hp.clickProfileIcon();
-			captureScreen(currentDriver, "LoginTest");
-			currentDriver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
-			hp.clickLogin();
-			captureScreen(currentDriver, "LoginTest");
-			currentDriver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
-			hp.enterEmail(Email);
-			captureScreen(currentDriver, "LoginTest");
-			currentDriver.manage().timeouts().implicitlyWait(190, TimeUnit.SECONDS);
-			hp.enterPassword(Password);
-			captureScreen(currentDriver, "LoginTest");
-			currentDriver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
-			hp.clicklogin();
-			captureScreen(currentDriver, "LoginTest");
-			currentDriver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
-		} catch (Exception e) {
-			ErrorTracker.setError(e);
-			throw e; // Re-throw so Cucumber knows it's a failure
-		}
-	}
-
-	@When("User Search for product")
-	public void search_for_the_product() {
-
-		try {
-			currentDriver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-			WebElement search = currentDriver.findElement(By.xpath("//input[@placeholder='Search puma.com']"));
-			currentDriver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-			currentDriver.manage().timeouts().implicitlyWait(140, TimeUnit.SECONDS);
-			search.click();
-			currentDriver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-			search.sendKeys("Mens wear");
-			currentDriver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-			search.sendKeys(Keys.ENTER);
-			currentDriver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-		} catch (Exception e) {
-			ErrorTracker.setError(e);
-			throw e; // Re-throw so Cucumber knows it's a failure
-		}
-	}
-
-	@When("user send the test report in email")
-	public void user_send_the_email_report() {
-		try {
-			SendEmailWithReport rp = new SendEmailWithReport();
-			rp.sendjavaemail();
-		} catch (Exception e) {
-			ErrorTracker.setError(e);
-			throw e; // Re-throw so Cucumber knows it's a failure
-		}
-	}
-
-	@When("User filters the product")
-	public void filter_for_the_product() {
-
-		try {
-			Select drp = new Select(currentDriver.findElement(By.xpath("//body/div[@id='page']/div[@id='product-search-results']/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/select[1]")));
-			drp.selectByVisibleText("Price Low To High");
-			currentDriver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-		} catch (Exception e) {
-			ErrorTracker.setError(e);
-			throw e; // Re-throw so Cucumber knows it's a failure
-		}
-	}
-
 }

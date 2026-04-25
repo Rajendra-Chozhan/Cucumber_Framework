@@ -21,11 +21,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Homepage_Fab extends BaseClass{
 	WebDriver driver;
 
-	public Homepage_Fab() {
-	this.driver = DriverManager.getDriver();
-		//this.driver = DriverFactory.getDriver();
-		PageFactory.initElements(this.driver, this);
-	}
+			public Homepage_Fab(WebDriver driver) {
+			this.driver = driver;
+			PageFactory.initElements(driver, this);
+		}
+
 	@FindBy(xpath = "//button[@class='border-0 bg-transparent']//*[name()='svg']")
 	public  WebElement ProfileButton;
 	public void clickProfileIcon()
