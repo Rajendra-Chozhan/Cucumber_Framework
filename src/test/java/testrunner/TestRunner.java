@@ -1,26 +1,29 @@
 package testrunner;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
-import org.junit.runner.RunWith;
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
+import io.cucumber.testng.CucumberOptions;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
-import utilities.CustomReportListener;
 
-
-@RunWith(Cucumber.class)
 @CucumberOptions(
-		plugin = {"pretty","html:target/cucumber-reports/report.html","json:target/cucumber-reports/report.json","com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+		plugin = {
+				"pretty",
+				"html:target/cucumber-reports/report.html",
+				"json:target/cucumber-reports/report.json",
+				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
 				"rerun:target/FailedRerun.txt"
 		},
-		features = {"src/main/resources/Features"},		glue= {"stepdefinitions"},
-		tags = "@SmokeTest"
-
-
+		features = {"src/main/resources/Features"},
+		glue = {"stepdefinitions"},
+		// Comment tags for now to see if tests are detected
+		 tags = "@SmokeTest",
+		monochrome = true
 )
-
-
 @Listeners(utilities.CustomReportListener.class)
 public class TestRunner extends AbstractTestNGCucumberTests {
-
+	@Override
+	@DataProvider(parallel = false)
+	public Object[][] scenarios() {
+		return super.scenarios();
+	}
 }

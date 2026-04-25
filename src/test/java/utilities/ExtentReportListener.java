@@ -17,7 +17,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static basepackage.BaseClass.driver;
+import static basepackage.DriverManager.driver;
+
 
 public class ExtentReportListener implements ITestListener {
 

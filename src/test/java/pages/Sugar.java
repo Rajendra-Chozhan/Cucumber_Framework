@@ -1,21 +1,19 @@
 package pages;
 
 import basepackage.BaseClass;
-import basepackage.BrowserManager;
+import basepackage.DriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import basepackage.BaseClass;
-
 public class Sugar extends BaseClass {
 
 	WebDriver driver;
 
 	public Sugar() {
-		this.driver = BrowserManager.getDriver(); // ✅ Get actual WebDriver instance
+		this.driver = DriverManager.getDriver(); // ✅ Get actual WebDriver instance
 		PageFactory.initElements(this.driver, this);
 	}
 	@FindBy(xpath="//a[@id='CC-guidedNavigation-dimensionHeader-0']")

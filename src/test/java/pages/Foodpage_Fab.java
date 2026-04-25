@@ -1,6 +1,6 @@
 package pages;
 
-import basepackage.BrowserManager;
+import basepackage.DriverManager;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,7 +14,7 @@ public class Foodpage_Fab extends BaseClass{
 	WebDriver driver;
 
 	public Foodpage_Fab() {
-		this.driver = BrowserManager.getDriver(); // ✅ Get actual WebDriver instance
+		this.driver = DriverManager.getDriver(); // ✅ Get actual WebDriver instance
 		PageFactory.initElements(this.driver, this);
 	}
 

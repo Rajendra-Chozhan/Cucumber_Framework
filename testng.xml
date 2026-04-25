@@ -7,7 +7,7 @@
     </listeners>
       <test name="CucumberTests">
         <classes>
-            <class name="testrunner.ParallelCucumberRunner"/>
+            <class name="testrunner.BrowserRunner"/>
         </classes>
     </test>
      </suite>

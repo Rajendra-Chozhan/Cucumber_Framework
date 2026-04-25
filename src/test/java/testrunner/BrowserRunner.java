@@ -5,18 +5,17 @@ import io.cucumber.testng.CucumberOptions;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 
-
-
-
-
-
 @CucumberOptions(
-        plugin = {"pretty","html:target/cucumber-reports/report.html","json:target/cucumber-reports/report.json","com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+        plugin = {
+                "pretty",
+                "html:target/cucumber-reports/report.html",
+                "json:target/cucumber-reports/report.json",
+                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
                 "rerun:target/FailedRerun.txt"
         },
-        features = {"src/main/resources/Features"},		glue= {"stepdefinitions"},
+        features = {"src/main/resources/Features"},
+        glue = {"stepdefinitions"},
         tags = "@SmokeTest"
-
 )
 public class BrowserRunner extends AbstractTestNGCucumberTests {
 
@@ -29,7 +28,7 @@ public class BrowserRunner extends AbstractTestNGCucumberTests {
     @Override
     @DataProvider(parallel = true)
     public Object[][] scenarios() {
-        System.setProperty("browser", browser);
+        System.setProperty("browser", browser);  // set for each thread
         return super.scenarios();
     }
 
@@ -41,9 +40,9 @@ public class BrowserRunner extends AbstractTestNGCucumberTests {
     @DataProvider(name = "browserProvider")
     public static Object[][] browserProvider() {
         return new Object[][] {
-                { "chrome" },
-                { "firefox" },
-                { "edge" }
+                {"chrome"},
+                {"firefox"},
+                {"edge"}
         };
     }
 }

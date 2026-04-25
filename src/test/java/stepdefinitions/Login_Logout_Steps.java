@@ -1,7 +1,6 @@
 package stepdefinitions;
 
-import basepackage.BrowserManager;
-import basepackage.DriverFactory;
+import basepackage.DriverManager;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
@@ -11,22 +10,18 @@ import pages.Homepage_Fab;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import io.cucumber.java.Scenario;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
-import static basepackage.BaseClass.captureScreen;
 
 public class Login_Logout_Steps extends BaseClass{
 
 	private static final Logger logger = LogManager.getLogger(Login_Logout_Steps.class);
 	//WebDriver currentDriver = BrowserManager.getDriver();
-	WebDriver currentDriver = DriverFactory.getDriver();
+	WebDriver currentDriver = DriverManager.getDriver();
 
 	@Test(description = "Login Test")
 	@Given("user launches the URL")

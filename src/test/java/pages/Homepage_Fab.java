@@ -2,10 +2,8 @@ package pages;
 
 import java.util.concurrent.TimeUnit;
 
-import basepackage.BaseClass;
+import basepackage.*;
 
-import basepackage.BrowserManager;
-import basepackage.DriverFactory;
 import org.openqa.selenium.JavascriptExecutor;
 
 import org.openqa.selenium.*;
@@ -21,8 +19,8 @@ public class Homepage_Fab extends BaseClass{
 	WebDriver driver;
 
 	public Homepage_Fab() {
-//		this.driver = BrowserManager.getDriver();
-		this.driver = DriverFactory.getDriver();
+	this.driver = DriverManager.getDriver();
+		//this.driver = DriverFactory.getDriver();
 		PageFactory.initElements(this.driver, this);
 	}
 	@FindBy(xpath = "//button[@class='border-0 bg-transparent']//*[name()='svg']")
@@ -72,8 +70,6 @@ public class Homepage_Fab extends BaseClass{
 	public void clickAccountIcon()
 	{
 		highLighterMethod(driver,AccountButton);
-		Actions action = new Actions((WebDriver) driver);
-		action.moveToElement(AccountButton).build().perform();
 		AccountButton.click();
 	}
 
@@ -82,8 +78,7 @@ public class Homepage_Fab extends BaseClass{
 
 	public void clicklogout()
 	{
-		highLighterMethod(driver,logoutButton);
-		logoutButton.click();
+	        logoutButton.click();
 	}
 
 	
@@ -109,7 +104,7 @@ public class Homepage_Fab extends BaseClass{
 	}
 
 
-	@FindBy(xpath= "//div[@id='searchIcon']//*[name()='svg']")
+	@FindBy(xpath= "//div[@class='col-7 search-col']//i[@class='fa-solid fa-magnifying-glass search-bar-icon']")
 	WebElement SEARCHICON;
 
 	public void verify_Searchicon() {
@@ -120,7 +115,7 @@ public class Homepage_Fab extends BaseClass{
 			SEARCHICON.click();
 		}
 
-	@FindBy(xpath= "//i[@class='fas fa-map-marker-alt mr-1']")
+	@FindBy(xpath= "//img[@src='../../../assets/images/Store Locatorsvg.svg']")
 	WebElement Location_ICON;
 
 	public void verify_FabLocationicon() {

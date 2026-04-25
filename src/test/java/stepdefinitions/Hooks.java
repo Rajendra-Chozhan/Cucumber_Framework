@@ -1,16 +1,13 @@
 package stepdefinitions;
 
-
-import basepackage.BaseClass;
-import basepackage.BrowserManager;
-import basepackage.DriverFactory;
+import basepackage.DriverManager;
 import io.cucumber.java.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;
 import utilities.ErrorTracker;
 import utilities.TestResult;
+import utilities.CustomReportListener;
 
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +16,18 @@ public class Hooks {
     private static final ThreadLocal<Long> startTime = new ThreadLocal<>();
     public static List<TestResult> testResults = new ArrayList<>();
     private static int counter = 1;
-    public static ThreadLocal<String> browserName = new ThreadLocal<>();
 
+    // This will run before each scenario
     @Before
-    public void beforeScenario(Scenario scenario) {
-//       String browser = System.getProperty("browser", "chrome"); // Default to Chrome if no system property is provided
-//        BrowserManager.initDriver(browser);
+    public void setup() {
+        // Fetch browser and runMode from system properties (set via command line or configuration)
+        String browser = System.getProperty("browser", "chrome"); // Default to chrome if not provided
+        String runMode = System.getProperty("runMode", "local");  // Default to local if not provided
 
-        String browser = System.getProperty("browser", "chrome");
-        DriverFactory.setDriver(browser);
+        // Pass the parameters to DriverManager to set up the WebDriver
+        DriverManager.setDriver(browser, runMode);
 
+        // Start timing
         startTime.set(System.currentTimeMillis());
         ErrorTracker.clear();
     }
@@ -48,25 +47,21 @@ public class Hooks {
                 scenario.getName(),
                 scenario.getStatus().toString(),
                 durationMillis,
-                browserName.get(), // Use browser name from thread local
+                System.getProperty("browser"), // Directly from system property
                 errorMsg
         );
 
         testResults.add(result);
 
-        WebDriver currentDriver = BrowserManager.getDriver();
-        if (currentDriver != null) {
-            currentDriver.quit();
-            DriverFactory.quitDriver();
-        }
-
-
+        // Quit driver safely
+        DriverManager.quitDriver();
     }
 
     @AfterAll
     public static void afterAll() {
         try {
-            utilities.CustomReportListener.generateReport(testResults, "test-output/custom-reports");
+            CustomReportListener.generateReport(testResults, "test-output/custom-reports");
+            System.out.println("✅ Custom HTML report generated after all scenarios.");
         } catch (Exception e) {
             e.printStackTrace();
         }
